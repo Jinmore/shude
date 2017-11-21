@@ -1,0 +1,46 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+      {template "content","left-nav"}
+      <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+      <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  >{$CATEGORYS[$x_catid][catname]} >{if $CATEGORYS[$catid][parentid]!=$x_catid}{if $CATEGORYS[$catid][parentid]!=0}<a href="{$CATEGORYS[$CATEGORYS[$catid][parentid]][url]}">{$CATEGORYS[$CATEGORYS[$catid][parentid]][catname]}</a> >{/if}{/if}<span>{$CATEGORYS[$catid][catname]}</span></div>
+        <!--修改-->
+        <div class="right_modify">
+       <ul>
+           {php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=4}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+            {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+            {loop $data $r}
+                <li class="clearFix">
+                    <a class="left fl" href="javascript:;"><img src="{thumb($r[image],480,323)}"></a>
+                    <div class="right fl">
+                        <div class="right_h3" >{$r[catname]}</div>
+                        <div class="right_text">
+                           {$r[description]}
+                        </div>
+                       	
+                           
+							
+                            <a href="{$r[url]}" class="right_more" >READ MORE</a>
+							
+                    </div>
+                </li>
+             {/loop}
+              {/pc}            
+            </ul>
+          {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+        </div>
+{template "content","footer-main"}

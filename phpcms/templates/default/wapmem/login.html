@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员登录</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+  
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}wap/Validform_v5.3.2.js"></script> 
+ 
+    <script src="{JS_PATH}wap/base.js?v=111"></script>
+    <script>
+        $(function(){
+            $(".p3").find("a").click(function(){
+                $(".iphone_num").show();
+                $(".iphone_num").find(".close").show();
+            });
+            $(".iphone_num").find(".close").click(function(){
+                $(".iphone_num").hide();
+            });
+        })
+    </script>
+    <style>
+        @media screen and (max-width: 414px){
+            .iphone_num{font-size: 0.24rem;background-color:#33a643;color: #fff;line-height: 0.4rem;text-align:center;position:fixed;top: 0;right: 0;bottom: 0;left: 0;margin: auto;width: 4rem;height: 1.5rem;padding-top:0.6rem;border-radius: 20px;display: none;}
+            .iphone_num .close{position: absolute;right: 0.1rem;top: 0.1rem;font-size: 0.4rem;color: #fff;font-weight: bolder;font-family: "微软雅黑";width: 0.4rem;}
+        }
+    </style>
+</head>
+<div class="sign">
+    <h3>会员登录</h3>
+    <div class="sign_one" id="result_one" >
+        <form class="registerform" action="?m=member&c=ajaxlogin&a=public_Login" method="post">
+            <div class="name clearBoth">
+                <div class="top fl"></div>
+                <input type="text"  class="fl inputxt" value="" id="username" name="username" placeholder="用户名" datatype="n|s" nullmsg="用户名不能为空!" errormsg="用户名只能有中文、英文或数字组成!">
+            </div>
+            <div class="Password clearBoth">
+                <div class="icon fl"></div>
+                <input type="password" placeholder="密码" class="fl inputxt"  id="password" name="password"  datatype="*6-16" nullmsg="密码不能为空!" errormsg="请填写6到20位任意字符！">
+            </div>
+           <input type="hidden" name="dosubmit" value="{L('login')}" >
+            <input type="button" value="登录" class="sing_on" lay-submit lay-filter="*">
+        </form>
+        <a href="/index.php?m=member&c=index&a=public_forget_password_mobile&siteid={$siteid}" class="forget fl">忘记密码</a>
+
+         <a href="/index.php?m=mobile&siteid={$siteid}" class="forget fr" style="background:none;margin-right:25px" >返回首页</a>
+    </div>
+    <!--短信验证-->
+    <div class="sign_two" id="result_two" style="display:none">
+        <div class="sign_two_inner">
+        <div class="message">
+            <p class="p1">你正在使用手机短信验证身份</p>
+            <p class="p2">手机号：<samp id="phonenumber"></samp></p>
+        </div>
+        <div class="proving clearBoth">
+            <input type="text" placeholder="验证码" class="fl" id="validataCode">
+            <input style="display:block" href="javascript:;" class="proving_click fr" id="getValidateSMS" value="点击获取验证码 ">        
+        </div>
+        <div class="sure">
+            <input type="button" value="确定" id="confirmSub">
+        </div>
+        <p class="p3">手机不可用？<a href="javascript:;">点此联系客服</a></p>
+            <div class="iphone_num">
+                您可以联系我们<br>
+                010-61201440
+                <div class="close">X</div>
+            </div>
+    </div>
+    </div>
+</div>
+<script src="statics/plugin/layerui/lay/dest/layui.all.js"></script>
+<script type="text/javascript" src="{JS_PATH}cookie.js"></script>
+<script type="text/javascript" src="{JS_PATH}default/member.js"></script>
+
+</body>
+</html>
+
+
+
+

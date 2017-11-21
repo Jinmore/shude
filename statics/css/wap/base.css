@@ -1,0 +1,49 @@
+body,ul,li,ol,p,h1,h2,h3,h4,h5,h6,dl,dd,dt,a,span,img,i,b,form,input,label,textarea{margin:0;padding:0;}
+*{margin: 0;padding: 0;}
+body{font-family: "微软雅黑";}
+a{text-decoration: none;}
+i{font-style: normal;}
+ul,ol{list-style: none;}
+textarea{resize: none;}
+input{outline: none;border: none;-webkit-appearance: none;}
+img{border: none;vertical-align: top;}
+.clearBoth:after{content: "";display: block;height: 0;*zoom:1;clear: both;}
+.fl{float: left;}
+.fr{float: right;}
+
+
+
+/*==========以下部分是Validform必须的===========*/
+.Validform_checktip{
+    margin-left:8px;
+    line-height:20px;
+    height:20px;
+    overflow:hidden;
+    color:#999;
+    font-size:12px;
+}
+.Validform_right{
+    color:#71b83d;
+    padding-left:20px;
+    background:url(../../images/wap/right.png) no-repeat left center;
+}
+.Validform_wrong{
+    color:red;
+    padding-left:20px;
+    white-space:nowrap;
+    background:url(../../images/wap/error.png) no-repeat left center;
+}
+.Validform_loading{
+    padding-left:20px;
+    background:url(../../images/wap/onLoad.gif) no-repeat left center;
+}
+.Validform_error{
+    /*background-color:#ffe7e7;*/
+}
+#Validform_msg{color:#7d8289; font: 12px/1.5 tahoma, arial, \5b8b\4f53, sans-serif; width:200px; -webkit-box-shadow:2px 2px 3px #aaa; -moz-box-shadow:2px 2px 3px #aaa; background:rgba(0,0,0,0.5); position:absolute; top:0; right:50px; z-index:1000; display:none;filter: progid:DXImageTransform.Microsoft.Shadow(Strength=3, Direction=135, Color='#999999');border-radius: 20px;}
+#Validform_msg .iframe{position:absolute; left:0; top:-1px; z-index:-1;}
+#Validform_msg .Validform_title{line-height:25px;  text-align:center; font-weight:bold; padding:0 8px; color:#fff; position:relative; background-color:#000;}
+#Validform_msg a.Validform_close:link,#Validform_msg a.Validform_close:visited{line-height:22px; position:absolute; right:8px; top:6px; color:#fff; text-decoration:none;background: url("../../images/wap/close.png") no-repeat 0 0;background-size: cover;height: 20px;width: 20px;}
+#Validform_msg a.Validform_close:hover{color:#cc0;}
+#Validform_msg .Validform_info{ border-top:none; text-align:center;color: #fff;min-height: 50px;border-radius: 20px;
+    background:rgba(0,0,0,0.6) url("../../images/wap/mark.png") no-repeat center 20px;background-size: 30px 30px;padding: 60px 10px 10px;font-size: 14px;}

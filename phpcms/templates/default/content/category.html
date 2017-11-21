@@ -1,0 +1,42 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+        {template "content","left-nav"}
+        <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  >  <span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+        {pc:content action="category" catid="$catid" num="3"  order="listorder ASC"}
+        {loop $data $r}
+        {php $result[]=$r}
+        {/loop}
+        {/pc}
+
+           <!--联系我们-->
+            <div class="lainXi clearFix">
+                <div class="lainXi_left fl">
+                    <div class="lainXi_left_text">
+                        <h2 class="lainXi_left_h2">{$result[0][catname]}</h2>
+                        <a href="{$result[0][url]}">点击进入</a>
+                    </div>
+                    <div class="lianXi_hui"></div>
+                </div>
+                <div class="lainXi_left fl">
+                    <div class="lainXi_left_text">
+                        <h2 class="lainXi_left_h2">树德诚聘英才</h2>
+                        <a href="{$result[1][url]}">点击进入</a>
+                    </div>
+                    <div class="lianXi_hui"></div>
+                </div>
+            </div>
+
+            <div class="lainXi_title">{$result[2][catname]}</div>
+         	{$result[2][description]}
+        </div>
+{template "content","footer-main"}

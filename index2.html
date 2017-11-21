@@ -1,0 +1,64 @@
+<!DOCTYPE HTML><html><head>
+	<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"/>
+		<link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+		<script type="text/javascript" src="jquery.min.js"></script>
+		<script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>
+
+</head><body>
+
+	<ul id="videolist">
+		<li class='videoItem' data-source='a63686ad6d99491cb2f930bdce4fbdac'>KI完整版</li>
+		<li class='videoItem' data-source='cb9fff5c3a7f4dbd8f9545c6e11acc98'>下爬楼梯机器人</li>
+		<li class='videoItem' data-source='fc395769496046caa7f0823a41d59d4d'>颜色检测机器人</li>
+		<li class='videoItem' data-source='1899d19e4cc64066acb1b270a234141b'>智能收费站机器人</li>
+		<li class='videoItem' data-source='a18996d18d7043e7b7e4da6c453d3730'>恐龙</li>
+	</ul>
+
+	<div class="prism-player" id="J_prismPlayer"></div>
+	<script>
+	var playAuth='';
+	$(function(){
+		var $li_con=$("#videolist");
+		$li_con.find('.videoItem').click(function(event) {
+			var Vid=$(this).attr('data-source');
+			if(Vid==''||Vid=='undefined') return false;
+			_initPLayer(Vid,'50%','400px');
+		});
+	})
+	
+
+	  function _initPLayer(VId,width,height){
+	  		var width=width||550+'px';
+	  		var height=height||400+'px';
+				$.ajax({
+				url: '/api.php?op=getauth',
+				type: 'GET',
+				async :false,
+				data: {'VId':VId},
+				success:function(info){
+					if(typeof(info)!='object'){
+						info=$.parseJSON(info);
+					}
+					console.log(typeof(info.code));
+					console.log(typeof(info.code)==1)
+					if(info.code=='1'){
+						playAuth=info.source;
+						//初始化播放器
+						var player = new prismplayer({
+							id: "J_prismPlayer",
+							autoplay: true,
+							width: width,
+							height: height,
+							vid:  VId,
+							playauth:playAuth,
+						});
+					}
+					//console.log(info);
+				}
+			})
+				return false;
+		}
+	
+	</script>
+</body></html>

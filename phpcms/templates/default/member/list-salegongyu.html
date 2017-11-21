@@ -1,0 +1,379 @@
+{template "content","header"}
+<body>
+{template "content","header-nav"}
+<div style="height:60px;"></div>
+
+<div class="chushou cl zk">
+  <h4 class="fl">{$CATEGORYS[$x_catid][catname]}</h4>
+  <div class="search-chushou fr">
+      <form action="index.php" method="get">
+      <input class="txt" placeholder="请输入区域、商圈或名称" name="k">
+      <input type="hidden" name="m" value="content">
+      <input type="hidden" name="c" value="search">
+      <input type="hidden" name="a" value="searchSpace">
+      <input type="hidden" name="tpl" value="salegongyu">
+      <input type="hidden" name="catid" value="{$catid}">
+      <input type="hidden" name="dosubmit" value="{time()}">
+      <input class="btn" value="搜索" type="submit">
+    </form>
+  </div>
+</div>
+
+
+{php $theurl = "index.php?m=content&c=index&a=lists";}
+<?php /*加载模型*/?>
+{php $subway_linkage = getcache(3518,'linkage'); $subway_data = $subway_linkage[data];}   
+{php $area_linkage = getcache(3360,'linkage'); $area_data = $area_linkage[data];}
+{php $areaid = (isset($_GET['areaid']) && is_numeric($_GET['areaid']) ? $_GET['areaid'] : '');}
+{php $subway=(isset($_GET['subway']) && is_numeric($_GET['subway']) ? $_GET['subway'] : '');}
+{php $mianji=(isset($_GET['daxiao']) ? safe_replace($_GET['daxiao']) : '');}
+{php $priceid=(isset($_GET['price']) ? safe_replace($_GET['price']) : '');}
+<?php
+if($area_data[$areaid][parentid] == 0) {
+    $paid = 0;
+} else {
+    $paid = $area_data[$areaid]['parentid'];
+}
+$where = array();
+if($catid) $where['c.catid'] = (int) $catid;
+if($catid) $where['a.status'] =99;
+$areaid_arr = array();
+$boroughs = $streets = '';
+foreach($area_data as $k=>$r){
+    if($r[parentid] == 0){//取出顶级
+        $boroughs[$k]  = $r['name'];
+    }elseif(($areaid == $r['parentid'] || $paid == $r['parentid'])){
+        $streets[$k]  = $r['name'];
+        $areaid_arr[] = $k;
+    }
+}
+if($subway_data[$subway][parentid] == 0) {
+    $psub = 0;
+} else {
+    $psub = $subway_data[$subway]['parentid'];
+}
+$subway_arr = array();
+$sub = $subss = '';
+foreach($subway_data as $k=>$r){
+    if($r[parentid] == 0){
+        $sub[$k]  = $r['name'];
+    }elseif(($_GET[subway] == $r['parentid'] || $psub == $r['parentid'])){
+        $subss[$k]  = $r['name'];
+        $subway_arr[] = $k;
+    }
+}
+/**区域*/
+if($paid){//如果是顶级
+    if($areaid) $where['c.area'] = (int) $areaid;
+    $areasql = '';
+}else{  
+    if($areaid) $areasql = ' and c.area in('.join(',',$areaid_arr).')';
+}
+/**地铁*/
+if($psub||$subway_data[$subway][child]==0){//如果是顶级
+    if($subway) $where['c.subway'] = (int) $subway;
+    $subwaysql = '';
+}else{
+    if($subway) $subwaysql = ' and c.`subway` in('.join(',',$subway_arr).')';
+}
+$wheresql.=getwheresql($where);
+
+if($priceid){ 
+  $price_range=explode(",", $priceid);
+  if(count($price_range)>1){
+    $wheresql .=" and a.`price` >".$price_range[0];
+    if($price_range[1]){
+      $wheresql .=" and a.`price` <=".$price_range[1];
+    }   
+  }else{
+    $wheresql .=" and a.`price` <=".$price_range[0];
+  }
+}
+//自定义价格
+if(isset($_GET[startprice])){
+  $min_p=intval($_GET['startprice'])?intval($_GET['startprice']):0;
+  $max_p=intval($_GET['endprice'])?intval($_GET['endprice']):0;
+  if($min_p){
+    $wheresql .=" and a.`price`>".$min_p;
+  }
+  if($max_p){
+    $wheresql .=" and a.`price`<=".$max_p  ;
+  }
+}
+if($mianji){  
+  $mianji_range=explode(",", $mianji);  
+  if(count($mianji_range)>1){
+
+    $wheresql .=" and a.`mianji` >".$mianji_range[0];
+    if($mianji_range[1]){
+      $wheresql .=" and a.`mianji` <=".$mianji_range[1];
+    }
+    
+  }else{
+    $wheresql .=" and a.`mianji` <=".$mianji_range[0];
+  }
+}
+//自定义区域
+if(isset($_GET['startarea'])){
+  $min_mianji=intval($_GET['startarea'])?intval($_GET['startarea']):0;
+  $max_mianji=intval($_GET['endarea'])?intval($_GET['endarea']):0;
+  if($min_mianji){
+    $wheresql .=" and a.`mianji`>".$min_mianji;
+  }
+  if($max_mianji){
+    $wheresql .=" and a.`mianji`<".$min_mianji  ;
+  }
+}
+///print_r($tiaojian);
+$wheresql=$wheresql.$areasql.$subwaysql;
+
+$groupsql=" group by c.`id` ";
+
+if(isset($_GET['order'])){
+  
+  if($_GET[order]=='pdesc'){
+    $ordersql =" order by cast(c.`price` as signed ) desc";
+    $order="pasc";
+  }else{
+    $ordersql =" order by cast(c.`price` as signed ) asc";
+    $order="pdesc";    
+  } 
+}else{
+  $ordersql =" order by c.listorder desc,c.inputtime desc";
+}
+?>
+
+
+
+<div class="box-chushou zk cl">
+  <div class="quyu cl">
+    <div class="fl biaoti-quyu">类型 : </div>
+    <div class="lei-quyu fl cl">
+      <ul>        
+        {pc:content action="category" catid="$x_catid" num="10" order="listorder ASC"}  
+        {loop $data $r} 
+        <li class="fl {if $catid==$r[catid]}hover{/if}"><a href="{$r[url]}">{$r[catname]}</a></li>
+        {/loop}
+    {/pc}       
+      </ul>
+    </div>
+  </div>
+  
+  <div class="quyu cl">
+    <div class="fl biaoti-quyu">区域 : </div>
+    <div class="lei-quyu fl cl">
+      <ul class="cl">
+    {if $areaid}
+        <li class="fl"><a href="{url_par("catid=$catid&price=$priceid&subway=$subway&daxiao=$mianji",$theurl)}">全部</a></li>           
+        {else}
+        <li class="fl hover"><a href="javascript:;">全部</a></li>
+        {/if}
+          {loop $boroughs $key $val}
+            {if $areaid == $key || $paid == $key}
+             <li class="fl hover"><a href="{url_par("catid=$catid&price=$priceid&areaid=$key&subway=$subway&daxiao=$mianji",$theurl)}"> {$val}</a></li>          
+            {else}
+            <li class="fl"> <a href="{url_par("catid=$catid&price=$priceid&areaid=$key&subway=$subway&daxiao=$mianji",$theurl)}">{$val}</a></li>
+            {/if}
+        {/loop}      
+      </ul>
+       {if $areaid}
+      <div class="erji-lei-quyu cl">
+      {if $paid!=0}
+        <a href="{url_par("catid=$catid&price=$priceid&areaid=$paid&subway=$subway&daxiao=$mianji",$theurl)}" class="fl {if $areaid==$paid}hover{/if}">全部</a>
+        {else}
+          <a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway&daxiao=$mianji",$theurl)}" class="fl hover">全部</a>
+      {/if}  
+        {loop $streets $key $val}         
+             <a href="{url_par("catid=$catid&price=$priceid&areaid=$key&subway=$subway&daxiao=$mianji",$theurl)}" class="fl {if $_GET[areaid] == $key}hover{/if}">{$val}</a>        
+        {/loop}
+        <div class="fang"></div>       
+      </div>
+      {/if}
+    
+    </div>
+  </div>
+  
+  <div class="quyu cl">
+    <div class="fl biaoti-quyu">地铁 : </div>
+    <div class="lei-quyu fl cl">
+      <ul class="cl">
+       {if $subway}
+        <li class="fl"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&daxiao=$mianji",$theurl)}">全部</a></li>           
+        {else}
+        <li class="fl hover"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&daxiao=$mianji",$theurl)}">全部</a></li>
+        {/if}    
+         {loop $sub $key $val}
+         {if $subway == $key || $psub == $key}
+             <li class="fl hover"><a href="javascript:;"> {$val}</a></li>          
+            {else}
+            <li class="fl"> <a href="{url_par("catid=$catid&daxiao=$mianji&price=$priceid&areaid=$areaid&subway=$key",$theurl)}">{$val}</a></li>
+            {/if}
+        {/loop}      
+      </ul>
+
+      {if $subway}
+      <div class="erji-lei-quyu cl">
+      {if $psub!=0}
+        <a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$psub&daxiao=$mianji",$theurl)}" class="fl {if $subway==$psub}hover{/if}">全部</a>
+        {else}
+          <a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway&daxiao=$mianji",$theurl)}" class="fl hover">全部</a>
+      {/if}  
+     {loop $subss $key $val}
+        <a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$key&daxiao=$mianji",$theurl)}" class="fl {if $_GET[subway] == $key}hover{/if}">{$val}</a>
+     {/loop}
+       <div class="fang"></div>      
+      </div>
+      {/if}
+
+    </div>
+  </div>
+  
+  <div class="quyu cl">
+    <div class="fl biaoti-quyu">面积 : </div>
+    <div class="lei-quyu fl cl">
+      <ul class="cl">
+     <li class="fl {if !$mianji&&!$min_m}hover{/if}"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway",$theurl)}" >全部</a></li>
+      {loop filtersAarr('sarea',$modelid) $k $v}
+      <li class="fl {if $mianji==$v[value]}hover{/if}"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway&daxiao=$v[value]",$theurl)}">{$v[name]}</a></li>      
+      {/loop}
+      
+        <li class="fl">
+          <div class="shuru-fanwei cl">
+              <form action="index.php">
+              <input class="txt fl" maxlength="5" name="startarea" value="{$min_mianji}">
+              <span class="fl"> - </span> 
+              <input class="txt fl" maxlength="5" name="endarea"  value="{$max_mianji}">
+              <span class="fl">m2</span>
+
+        <input type="hidden" name="areaid" value="{$areaid}">
+               <input type="hidden" name="subway" value="{$subway}">   
+              {if $priceid}
+                 <input type="hidden" name="price" value="{$priceid}">
+              {/if}     
+              {if isset($min_p)}
+              <input type="hidden" name="startprice" value="{$min_p}">
+              <input type="hidden" name="endprice" value="{$max_p}">
+              {/if}
+                 <input type="hidden" name="m" value="content">
+                 <input type="hidden" name="a" value="lists">
+                 <input type="hidden" name="catid" value="{$catid}">
+        
+              <input type="submit" class="btn fl" value="筛选">
+            </form>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="quyu cl">
+    <div class="fl biaoti-quyu">单价 : </div>
+    <div class="lei-quyu fl cl">
+      <ul class="cl">
+        <li class="fl {if !$priceid&&!$min_p}hover{/if}"><a href="{url_par("catid=$catid&areaid=$areaid&subway=$subway&daxiao=$mianji",$theurl)}">全部</a></li>
+    
+          {loop filtersAarr('sprice',$modelid) $k $v}
+        <li class="fl {if $priceid==$v[value]}hover{/if}"><a href="{url_par("catid=$catid&price=$v[value]&areaid=$areaid&subway=$subway&daxiao=$mianji",$theurl)}">{$v[name]}</a></li>
+        {/loop}
+      
+        <li class="fl">
+          <div class="shuru-fanwei cl">
+
+                <form action="index.php">
+                    <input class="txt fl" name="startprice" maxlength="5" value="{$min_p}">
+                    <span class="fl"> - </span> 
+                    <input class="txt fl" name="endprice" maxlength="5" value="{$max_p}">
+                    <span class="fl">元/平米以上</span>
+                    <input type="hidden" name="areaid" value="{$areaid}">
+                     <input type="hidden" name="subway" value="{$subway}">
+                    
+                      {if $mianji}
+                          <input type="hidden" name="daxiao" value="{$mianji}">
+                      {/if}     
+                      {if isset($min_mianji)}
+                      <input type="hidden" name="startarea" value="{$min_mianji}">
+                      <input type="hidden" name="endarea" value="{$max_mianji}">
+                      {/if}                      
+
+                       <input type="hidden" name="m" value="content">
+                       <input type="hidden" name="a" value="lists">
+                       <input type="hidden" name="catid" value="{$catid}">
+                    <input type="submit" class="btn fl" value="筛选">
+                  </form>
+
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="chushou-shangpu cl zk">
+  <!--left-->
+  <div class="left-chushou-shangpu fl">
+    <div class="toubu-chushou-shangpu cl">
+      <ul class="fl">
+        <li class="fl {if !$order}hover{/if}"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway&daxiao=$mianji",$theurl)}">默认</a></li>
+        <li class="fl {if $order}hover{/if}"><a href="{url_par("catid=$catid&price=$priceid&areaid=$areaid&subway=$subway&daxiao=$mianji&order=$order",$theurl)}">价格</a></li>
+      </ul>
+     {php $mod = getcache('model','commons');}
+     {php $tablename=$mod[$modelid][tablename]} 
+    <?php 
+    if(empty($priceid)&&empty($mianji)&&empty($min_p)&&empty($min_mianji)){
+    $basesql="SELECT c.id as cid ,c.title ,c.thumb,c.mianji,c.price,c.area,c.subway,c.url from ld_$tablename as c where c.status =99 ";
+    $sql=$basesql .=$areasql.$subwaysql;  
+    }else{
+    $basesql="SELECT a.id as aid ,b.id as bid ,c.id as cid ,c.title ,c.thumb,c.mianji,c.price,c.area,c.subway,c.url from ld_salegongyu_room  as a INNER JOIN ld_salegongyu_room_data as b on a.id=b.id INNER JOIN ld_$tablename as c on c.id=b.space ";
+    $sql = $basesql. " where ".$wheresql.$groupsql.$ordersql;  
+  }
+    $page = max(intval($_GET[page]), 1);
+    $pagesize=4;  
+    $offset = $pagesize*($page-1);    
+    //echo $sql;          
+  ?>
+  {php $this->db->query($sql)}
+  {php $total=$this->db->fetch_array()}    
+
+      <p class="fr">智办为您找到<span>{count($total)}</span>栋公寓</p>   
+   
+     
+    </div>
+{php $db = pc_base::load_model('hits_model');  }
+{php $urlrule=makeurlrule()} 
+ {pc:get sql="$sql limit $offset,$pagesize -- "  urlrule="$urlrule"}    
+  {loop $data $r}
+  {php  $_r = $db->get_one(array('hitsid'=>'c-'.$modelid.'-'.$r[cid])); $views = $_r[weekviews]; }
+    <div class="lie-chushou-shangpu cl">
+      <div class="tu fl"><a href="{$r[url]}"><img src="{$r[thumb]}"></a></div>
+      <div class="wen fr">
+        <h5><a href="{$r[url]}">{$r[title]}</a></h5>
+        <div class="xin cl">
+          <div class="fl left-xin">
+            <p class="p1" style="background:url({IMG_PATH}default/redu-choushou_03.jpg) no-repeat left center;">[{$area_data[$area_data[$r[area]]['parentid']][name]}-{$area_data[$r[area]]['name']}]{$r[detail]}</p>
+            <p class="p1" style="background:url({IMG_PATH}default/redu-choushou_06.jpg) no-repeat left center;">面积：{$r['mianji']}m²</p>
+            <p class="p1" style="background:url({IMG_PATH}default/redu-choushou_09.jpg) no-repeat left center;">热度：近7天有{$views}位用户咨询过</p>
+          </div>
+          <div class="right-xin fr">
+            <p class="p2"><span>{$r[price]}</span>元/m²</p>
+             <p class="p2">总价：<span>{php echo $r[price]*$r[mianji]/10000}</span>万元</p>
+          </div>
+        </div>
+      </div>
+    </div> 
+   {/loop}
+   {/pc}    
+    
+{template "content","pagination"} 
+  </div>
+  <!--left-->
+  <!--right-->
+  <div class="right-chushou-shangpu fr">
+    <div class="form-yuyue">
+      {template "content","orderlook"}
+    </div>
+ {template "content","salegongyu-ads"}
+  </div>
+  <!--right-->
+</div>
+
+{template "content","footer"}

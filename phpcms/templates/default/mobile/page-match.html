@@ -1,0 +1,93 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+  	{template "mobile","nav"}
+    <!--FLL世界杯比赛-->
+    <div class="match_bot">
+            <div class="match_bot_box">
+            {pc:content action="category" catid="$catid" num="9" siteid="$siteid" order="listorder ASC"}
+            {loop $data $r}
+                <div class="match_bot_one">
+                    <div class="match_bot_title">{$r[catname]}</div>
+                    
+                    <div class="match-content">
+                        {$r[description]}
+                    </div>                 
+
+                     <div class="matchmore"><a href="{$r[url]}" class="match_ul_a">点击更多</a></div>
+                </div>
+            {/loop}
+            {/pc}             
+            </div>
+            
+ <!--    <div class="Match_one">
+        <div class="content">
+           <div class="title">FLL世界杯比赛</div>
+            <div class="content_inner">
+                <div class="content_title">一.比赛简介</div>
+                FIRST LEGO League简称FLL，是一个针对9-16岁孩子的国际比赛项目，每年9月份， FIRST LEGO League向全球参赛队伍公布年度挑战项目，这个项目鼓励孩子们用科学的方式去调查研究以及自己动手设计机器人搭建、编程工作来解决现实世界中的问题，赛季的高潮是举办一个运动会式的比赛。
+            </div>
+            <ul class="pic clearBoth">
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_03.png"></a></li>
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_05.png"></a></li>
+            </ul>
+            <div class="click_more">
+                <a href="#">点击更多</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="Match_one">
+        <div class="content">
+            <div class="title">FRC世界杯挑战赛</div>
+            <div class="content_inner">
+                <div class="content_title">一.比赛简介</div>
+                FIRST机器人挑战赛（FIRST Robotics Competition）是由美国非盈利机构FIRST主办，针对高中生、大专生的一项工业级机器人竞赛，把运动的刺激性和科学技术的精确结合在一起，被称作“智力上的大学运动会”。该项赛事已经获得全球500多所高校的认可，所有参赛队员每年均可获得申请总额约
+            </div>
+            <ul class="pic clearBoth">
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_09.png"></a></li>
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_10.png"></a></li>
+            </ul>
+            <div class="click_more">
+                <a href="#">点击更多</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="Match_one">
+        <div class="content">
+            <div class="title">FTC世界杯比赛</div>
+            <div class="content_inner">
+                <div class="content_title">一.比赛简介</div>
+                FIRST 科技挑战赛（FTC）于2007年FTC正式成为FIRST项目中的一员。是FIRST系列的最新项目。<br>
+                FTC（FIRST Tech Challenge） 机器人科技挑战赛是由美国FIRST非盈利性机构主办的针对12-18岁高中生的国际性机器人比赛。现今每年约 250,000
+            </div>
+            <ul class="pic clearBoth">
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_13.png"></a></li>
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_14.png"></a></li>
+            </ul>
+            <div class="click_more">
+                <a href="#">点击更多</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="Match_one">
+        <div class="content">
+            <div class="title">JR.FLL世界杯比赛</div>
+            <div class="content_inner">
+                <div class="content_title">一.比赛简介</div>
+                FIRST 科技挑战赛（FTC）于2007年FTC正式成为FIRST项目中的一员。是FIRST系列的最新项目。<br>
+                FTC（FIRST Tech Challenge） 机器人科技挑战赛是由美国FIRST非盈利性机构主办的针对12-18岁高中生的国际性机器人比赛。现今每年约 250,000
+            </div>
+            <ul class="pic clearBoth">
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_17.png"></a></li>
+                <li><a href="#"><img src="{IMG_PATH}wap/pic_18.png"></a></li>
+            </ul>
+            <div class="click_more">
+                <a href="#">点击更多</a>
+            </div>
+        </div>
+    </div> -->
+</div>
+{template "mobile","footer"}

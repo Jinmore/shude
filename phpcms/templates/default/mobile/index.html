@@ -1,0 +1,150 @@
+{template "mobile","header"}
+<!--banner-->
+<div class="banner">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+    {pc:content action="lists" catid="47" num="25" order="listorder desc,inputtime desc,id DESC"}
+    {loop $data $r}
+    <div class="swiper-slide"><a href="{if $r[islink]==1}{$r[url]}{else}javascript:;{/if}"><img src="{$r[thumb]}"></a></div>
+    {/loop}
+    {/pc}   
+        </div>
+        <div class="swiper-pagination"></div>
+    </div>
+</div>
+<div class="index_main">
+<!--共用的标题-->
+<a href="{list_url(34)}" class="base_title clearBoth">
+    <div class="left fl"></div>
+    <p class="fl">{$CATES[1][catname]}</p>
+    <div class="arrow fr"></div>
+</a>
+<!--机器人-->
+<ul class="Robot">
+  {pc:content action="category" catid="1" num="3" order="listorder ASC"}
+    {loop $data $r}
+    <li>
+        <a href="{list_url($r[catid])}" class="clearBoth">
+            <div class="left fl"><img src="{IMG_PATH}wap/{if $n==1}ji_05.jpg{elseif $n==2}ji_08.jpg{else}ji_10.jpg{/if}"></div>
+            <div class="right fl">
+                <h3>{$r[catname]}</h3>
+                <p>{str_cut(strip_tags($r[description]),45,"")}<span>[点击详细]</span></p>
+            </div>
+        </a>
+    </li>
+    {/loop}
+   {/pc} 
+  
+</ul>
+<div class="index_pic" style="background: url({$CATES[1][wapimage]}) no-repeat center 0;"></div>
+<!--课程-->
+<div class="course_box">
+    <ul class="course clearBoth">
+        <li>
+            <a href="{list_url(34)}">
+                <img src="{IMG_PATH}wap/jiangshi.png">
+                <h3>课程合作</h3>
+            </a>
+        </li>
+        <li>
+            <a href="{list_url(85)}">
+                <img src="{IMG_PATH}wap/zixun.png">
+                <h3>咨询</h3>
+            </a>
+        </li>
+        <li>
+            <a href="{list_url(4)}">
+                <img src="{IMG_PATH}wap/peixun.png">
+                <h3>培训</h3>
+            </a>
+        </li>
+        <li>
+            <a href="{list_url(110)}">
+                <img src="{IMG_PATH}wap/shangwu.png">
+                <h3>商务服务</h3>
+            </a>
+        </li>
+    </ul>
+</div>
+<a href="#" class="base_title clearBoth">
+    <div class="left fl"></div>
+    <p class="fl">合作说明</p>
+    <!--<div class="arrow fr"></div>-->
+</a>
+<!--VS-->
+<div class="vs">
+    <div class="vs_box">
+        <h3>营销策略支持</h3>
+       
+        <p class="p2">树德将为您提供专业的上门招生团队，为您量身定制一套属于您的、独家的招生解决方案。我们的招生服务不仅可以增加您的客户到访量，还可以提升您的主营业务销售量，降低公司成本。客观条件上减少对“人”的依赖。
+</p>
+       
+    </div>
+    <div class="vs_box">
+        <h3>咨询培训</h3>
+        
+        <p class="p2">我们拥有多元化、多层次的服务体系，不仅针对您目前存在的问题制定出一套独特的解决方案，而且还可以为贵司未来发展的项目提供推广加盟及上市捆绑储备。区域独家合作，为您的发展保驾护航。</p>
+       
+    </div>
+    
+</div>
+<!--共用的标题-->
+<a href="{page_url(4)}" class="base_title clearBoth">
+    <div class="left fl"></div>
+    <p class="fl">{$CATES[4][catname]}</p>
+    <div class="arrow fr"></div>
+</a>
+<!--合作企业-->
+<div class="cooperation"><img src="{$CATES[4][image]}"></div>
+<!--共用的标题-->
+<a href="{list_url(25)}" class="base_title clearBoth">
+    <div class="left fl"></div>
+    <p class="fl">{$CATES[25][catname]} </p>
+    <div class="arrow fr"></div>
+</a>
+<!--新闻动态-->
+<div class="index_news">
+    
+    {pc:mobile action="lists" catid="25" num="2" order="listorder desc,inputtime desc,id DESC"}
+    {loop $data $r}
+    <a href="{show_url($r[catid],$r[id])}" class="news_box clearBoth">
+        <div class="left fl"><img src="{thumb($r[wapthumb],235,164)}"></div>
+        <div class="right fl">
+            <h3>{str_cut($r[title],100,"")}</h3>
+            <div class="time">{date("Y-m-d",$r[inputtime])}</div>
+            <div class="text">{str_cut($r[description],115," ")}</div>
+            <div class="more">READ MORE>></div>
+        </div>
+    </a>
+    {/loop}
+    {/pc}
+   
+</div>
+<!--共用的标题-->
+<a href="{list_url(26)}" class="base_title clearBoth">
+    <div class="left fl"></div>
+    <p class="fl">常见问题 </p>
+    <div class="arrow fr"></div>
+</a>
+<!--常见问题-->
+<ul class="problem">
+  {pc:mobile action="lists" catid="26" num="5" order="listorder desc,inputtime desc,id DESC"}
+    {loop $data $r}
+    <li>
+        <a href="{show_url($r[catid],$r[id])}" class="clearBoth">
+            <div class="left fl"></div>
+            <div class="mid fl">{str_cut($r[title],60," ")}</div>
+            <div class="right fr"></div>
+        </a>
+    </li>
+    {/loop}
+  {/pc}
+  
+</ul>
+<!--二维码-->
+<div class="code">
+    <img src="{IMG_PATH}wap/code_03.png">
+    <p>扫描二维码关注我们</p>
+</div>
+</div>
+{template "mobile","footer"}

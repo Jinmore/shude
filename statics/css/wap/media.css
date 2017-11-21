@@ -1,0 +1,41 @@
+
+@media screen and (max-width: 375px) {
+    .Robot li a .right{width: 5rem;}
+    .Robot li a .right p{line-height: 0.3rem;}
+    .contact_bot li{min-height:3.4rem;}
+    .contact_bot li .p2{word-break:break-all;}
+    .videos_content{padding:0.35rem 0.25rem 0.6rem;}
+}
+@media screen and (max-width: 360px) {
+    .code{margin-bottom:1rem;}
+    .news_box .right h3{line-height: 0.3rem;}
+    .heZuo{padding-bottom: 0.4rem;}
+    .exam li .mid{width: 3.9rem;}
+    .exam li .mid .p1{line-height: 0.3rem;}
+    .exam li .mid .p2{margin-bottom: 0.18rem;}
+    .main{padding-bottom:1.2rem}
+    .content_inner{line-height: 0.3rem;}
+    .exam li .right{margin-top: 0.28rem;}
+}
+@media screen and (max-width: 320px) {
+    .series_one li a .right .more{width: 2rem;margin:0.1rem 0 0 0;}
+    .proving_click{width: 2rem;}
+    .videos_content{padding:0.35rem 0.24rem 0.6rem;}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

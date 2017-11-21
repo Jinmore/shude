@@ -1,0 +1,204 @@
+{template "content","header"}
+<body>
+<div class="top_line"></div>
+<div class="header_top">
+<div class="inner">
+   {template "content","header-nav"}
+</div>
+</div>
+
+<div id="demo01" class="flexslider">
+    <ul class="slides">
+    {pc:content action="lists" catid="24" num="25" order="listorder desc,inputtime desc,id DESC"}
+    {loop $data $r}
+        <li><div class="img"><img src="{$r[thumb]}"></div></li>
+    {/loop}    
+    {/pc}
+      
+    </ul>
+    <!-- <div class="banner_line"></div> -->
+</div>
+<div class="inner">
+    <div class="ke">
+        <div class="ke_top clearFix">
+            <div class="ke_top_left fl">
+                <h3 class="base_title">{$CATEGORYS[1][catname_en]}</h3>
+                <p class="base_title_two">{$CATEGORYS[1][catname]}</p>
+
+               <div class="three_ke">
+	
+            {pc:content action="category" catid="1" num="3" order="listorder ASC"}
+            	    {loop $data $r}
+                               <div class="chu_ke clearFix">
+                                   <div class="chu_ke_left fl"><img src="{if $n==1}{IMG_PATH}default/ji_05.jpg{elseif $n==2}{IMG_PATH}default/ji_08.jpg{else}{IMG_PATH}default/ji_10.jpg{/if}"></div>
+                                   <div class="chu_ke_right fl">
+                                       <a href="{$r[url]}" class="chu_a">{$r[catname]}</a>
+                                       <div class="chu_ke_right_bot clearFix">
+                                           <p class="fl">{str_cut(strip_tags($r[description]),63,"...")}</p><a href="{$r[url]}" class="detailed fl">[点击详细]</a>
+                                       </div>
+                                   </div>
+                               </div>
+            		{/loop}
+            		{/pc}
+               
+               </div>
+
+            </div>
+            <div class="ke_top_right fr"><img src="{$CATEGORYS[1][image]}"></div>
+        </div>
+    </div>
+</div>
+
+<div class="ke_bot">
+    <div class="ke_bot_inner">
+        <ul>
+            <li>
+                <a href="{$CATEGORYS[34][url]}">
+                    <div class="a_icon1"></div>
+                    <h5>课程合作</h5>
+                </a>
+            </li>
+            <li>
+                <a href="{$CATEGORYS[85][url]}">
+                    <div class="a_icon2"></div>
+                    <h5>咨询</h5>
+                </a>
+            </li>
+            <li>
+                <a href="{$CATEGORYS[4][url]}">
+                    <div class="a_icon3"></div>
+                    <h5>培训</h5>
+                </a>
+            </li>
+            <li>
+                <a href="{$CATEGORYS[110][url]}">
+                    <div class="a_icon4"></div>
+                    <h5>商务服务</h5>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<div class="cooperation">
+    <div class="inner">
+        <div class="cooperation_line"></div>
+        <h3>Collaborative description</h3>
+        <p>合作说明</p>
+		 
+        <div class="cooperation_bot clearFix">
+            <div class="heZuo_left fl">
+                <h4>营销策略支持</h4>
+                <div class="odd clearFix">
+                <div class="diamond fl">&nbsp;</div>
+                <div class="even_p fl">树德将为您提供专业的上门招生团队，为您量身定制一套属于您的、独家的招生解决方案。我们的招生服务不仅可以增加您的客户到访量，还可以提升您的主营业务销售量，降低公司成本。客观条件上减少对“人”的依赖。
+
+
+</div>
+                </div>
+                
+                </div>
+                <div class="heZuo_left heZuo_right fl">
+                <h4>咨询培训</h4>
+                <div class="odd clearFix">
+                <div class="diamond fl">&nbsp;</div>
+                <div class="even_p fl">我们拥有多元化、多层次的服务体系，不仅针对您目前存在的问题制定出一套独特的解决方案，而且还可以为贵司未来发展的项目提供推广加盟及上市捆绑储备。区域独家合作，为您的发展保驾护航。
+
+</div>
+                </div>
+               
+                
+               
+
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="qiYe">
+    <div class="inner">
+        <div class="qiYe_zs"></div>
+        <div class="base_title">{$CATEGORYS[4][catname_en]}</div>
+        <div class="base_title_two">{$CATEGORYS[4][catname]}</div>
+        <div class="qiYe_pic"><img src="{$CATEGORYS[4][image]}"></div>
+    </div>
+</div>
+<div class="box_news">
+<div class="inner">
+    <div class="news">
+        <div class="news_bg"></div>
+        <div class="base_title"><a href="{$CATEGORYS[25][url]}">{$CATEGORYS[25][catname_en]}</a></div>
+        <div class="base_title_two"><a href="{$CATEGORYS[25][url]}">{$CATEGORYS[25][catname]}</a></div>
+        {pc:content action="lists" catid="25" num="2" order="listorder desc,inputtime desc,id DESC"}
+        {loop $data $r}
+        {if $n%2!=0}
+        <div class="news_top clearFix">
+            <div class="news_top_left fl">
+                <a class="left_number fl" href="{$r[url]}">
+                    <h1>{date("d",$r[inputtime])}</h1>
+                    <div class="left_number_txt">{date("Y-m",$r[inputtime])}</div>
+                </a>
+                <div class="news_line fl"></div>
+                <div class="news_text fl">
+                    <a href="{$r[url]}" class="news_text1">{$r[title]}</a>
+                    <div class="news_text2">{str_cut($r[description],159,"...")}</div>
+                    <a href="{$r[url]}" class="news_more">READ MORE</a>
+                </div>
+            </div>
+            <div class="news_top_right fr">
+                <a href="javascript:;"><img src="{thumb($r[indexthumb],601,170)}"></a></div>
+        </div>
+        {else}
+           <div class="news_top news_bot clearFix">
+            <div class="news_top_right fl">
+                <a href="javascript:;"><img src="{thumb($r[indexthumb],601,170)}"></a></div>
+            <div class="news_top_left fr">
+                <a class="left_number fl" href="{$r[url]}">
+                    <h1>{date("d",$r[inputtime])}</h1>
+                    <div class="left_number_txt">{date("Y-m",$r[inputtime])}</div>
+                </a>
+                <div class="news_line fl"></div>
+                <div class="news_text fl">
+                    <a href="{$r[url]}" class="news_text1">{$r[title]}</a>
+                    <div class="news_text2">{str_cut($r[description],159,"...")} </div>
+                    <a href="{$r[url]}" class="news_more">READ MORE</a>
+                </div>
+            </div>
+        </div>
+        {/if}
+        {/loop}
+		{/pc}
+     
+    </div>
+</div>
+</div>
+
+<div class="problem">
+    <div class="inner">
+        <div class="problem_bg"></div>
+        <div class="base_title"><a href="{$CATEGORYS[26][url]}">{$CATEGORYS[26][catname_en]}</a></div>
+        <div class="base_title_two"><a href="{$CATEGORYS[26][url]}">{$CATEGORYS[26][catname]}</a></div>
+        <div class="problem_bot">
+	    {pc:content action="lists" catid="26" num="4" order="listorder desc,inputtime desc,id DESC"}
+        {loop $data $r}
+            <div class="problem_one">
+                <a href="{$r[url]}" class="q clearFix">
+                    <span class="fl"><img src="{IMG_PATH}default/problem_pic_14.png"></span>
+                    <p class="q_title fl">{$r[title]}</p>
+                </a>
+                <div class="problem_one_bot clearFix">
+                    <div class="w fl"><img src="{IMG_PATH}default/problem_pic_17.png"></div>
+                    <div class="problem_one_bot_right fl">
+                        <p class="w_text">
+                        {str_cut($r[description],147,"...")}
+                        </p>
+                        
+                    </div>
+                </div>
+            </div>   
+	{/loop}
+	{/pc}
+	  </div>
+    </div>
+</div>
+{template "content","footer"}

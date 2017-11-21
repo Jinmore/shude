@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心-课程系列</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+  
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <style type="text/css">
+.layui-form{margin: 0 auto;}
+    .layui-form tr th{width: 100px;text-align: right;font-size: 13px;color: #707070;font-weight: normal;border: 1px solid #d1d1d1;widows: 150px;color: #3c3c3c;padding-right:10px;border-top: none;border-right:none; }
+    .layui-form tr td {height: 30px;padding-left:10px;border: 1px solid #d1d1d1;margin-bottom: 15px;border-top:none; font-size: 13px}
+    .layui-form tr td .button{width: 100px;height: 28px;margin-top: 15px;}
+    </style>
+</head>
+<body class="gray">
+<div class="base_arrow">
+    <a href="/index.php?m=member&a=init"></a>
+    <p>个人资料</p>
+</div>
+<div class="my">
+    <table width="100%" cellspacing="0" class="layui-form">
+                    <tr>
+                        <th style="border-top:1px solid #d1d1d1">{L('username')}：</th>        
+                        <td style="border-top:1px solid #d1d1d1">{$memberinfo['username']}</td>
+                    </tr>
+                    
+                    <tr>
+                        <th >{L('regtime')}：</th>        
+                        <td>{FORMAT::date($memberinfo['regdate'] ,1)}</td>
+                    </tr>
+                    <tr>
+                        <th>{L('lastlogintime')}：</th>        
+                        <td>{FORMAT::date($memberinfo['lastdate'] ,1)}</td>
+                    </tr>
+                    <tr>
+                        <th >{L('regip')}：</th>        
+                        <td>{$memberinfo['regip']}</td>
+                    </tr>
+                    <tr>
+                        <th >{L('lastip')}：</th>        
+                        <td>{$memberinfo['lastip']}</td>
+                    </tr>
+                    <tr>
+                        <th >{L('mp')}：</th>        
+                        <td style="color:#ff6600;"><strong>{if $memberinfo['mobile']}{substr($memberinfo['mobile'],0,3)}****{substr($memberinfo['mobile'],-4)}{/if}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    </tr>
+                    
+                    {loop $member_modelinfo $k $v}
+                    <tr>
+                        <th width="120">{$k}：</th>   
+    
+                        <td>{if $k=='身份证号'}{substr($v,0,6)}****{substr($v,-4)}{else}{$v}{/if}</td>
+                    </tr>
+                    {/loop}
+                </table>
+                           
+    
+</div>
+</body>
+</html>

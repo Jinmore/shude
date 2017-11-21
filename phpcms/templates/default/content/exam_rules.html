@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>考试规则</title>
+	<link rel="stylesheet" href="{CSS_PATH}default/base.css">
+	<link rel="stylesheet" href="{CSS_PATH}default/index.css">
+	<script type="text/javascript" src="{JS_PATH}jquery.min.js"></script>
+</head>
+<body>
+
+<div class="rule" style="display: block;">
+    
+    <h3>考试规则</h3>
+    <div class="text">
+        1. 本次试卷共计15道题。<br>
+        2. 考试时间为5分钟，规定时间内必须做完试卷。否则视为考试未通过。<br>
+        3. 答题必须全部正确。<br>
+		4. 每日两次考试机会。每日零点更新考试次数（考试次数不累计）。<br>
+		5. 本次考试仅显示考试结果，不显示具体得分事项。<br>
+		6. 考试过程中，若有疑问，请在考试结束后与我们联系。
+		
+
+    </div>
+ 
+    <div class="rule_start" style="display: block;margin-top:64px">
+        <a href="javascript:;" class="start" id="kaoshi">倒计时5秒</a>
+    </div>
+
+</div>
+<script type="text/javascript">
+	var seconds=5;
+	$("#kaoshi").css("background","#595959");
+	setInterval(function(){
+	if(seconds>0){
+		$("#kaoshi").html("倒计时"+(seconds-1)+"秒");
+		seconds=seconds-1;
+		}else{
+			$("#kaoshi").css("background","#32a542");
+			$("#kaoshi").html("开始考试");
+			$("#kaoshi").attr('href',"?m=exam&a=gettheme&chapterid={$knowsid}");
+			$("#kaoshi").attr('target',"_top");
+		}		
+	},1000);
+	
+</script>
+</body>
+</html>

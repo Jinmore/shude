@@ -1,0 +1,43 @@
+{php $_u=param::get_cookie('_userid')}
+ <div class="vertical_logo"><a href="{APP_PATH}"><img src="{IMG_PATH}default/logo2.png"></a></div>
+ <ul class="vertical_ul">
+   <li>
+       <a href="/">首页</a>
+   </li>
+
+{pc:content action="category" catid="0" num="9"  order="listorder ASC"}
+{loop $data $r}
+{if $r[child]==0||$r[catid]==14}
+    <li>
+      <a href="{$r[url]}" {if $catid==$r[catid]||$x_catid==$r[catid]}class="vertical_li_bg"{/if}>{$r[catname]}</a>    
+      </li>
+{else}
+ <li>
+ {pc:content action="category" catid="$r[catid]" num="1"  order="listorder ASC" return="infoas"}
+ {loop $infoas $as}
+ {php $e=$as[url]}
+ {/loop}
+ {/pc}
+   <a href="{$e}" {if $catid==$r[catid]||$x_catid==$r[catid]}class="vertical_li_bg"{/if}>{$r[catname]}</a>    
+
+        <div class="two_nav">
+         <ul>
+          {pc:content action="category" catid="$r[catid]" num="10"  order="listorder ASC" return="infobs"}
+          {loop $infobs $bs}
+            <li><a href="{$bs[url]}">{$bs[catname]}</a></li>
+            {/loop}
+            {/pc}
+             
+          </ul>
+        </div>    
+   </li>        
+{/if}
+{/loop}
+{/pc}             
+   </ul>
+
+ {if empty($_u)&&!isset($_u)}
+    <a target="_blank" href="?m=member&a=login&forward={urlencode('http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?'.$_SERVER['QUERY_STRING'])}&sited=1" class="Sign_in">会员登录</a>
+  {else}
+    <a href="?m=member&a=init&sited=1" class="Sign_in">个人中心</a>
+  {/if}

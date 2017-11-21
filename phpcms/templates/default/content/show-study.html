@@ -1,0 +1,67 @@
+{template "content","header"}      
+<body>
+<style>
+.video_table tr td.played{background:#33a643}
+.video_table tr td.played a{color:#fff}
+
+</style>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+<!--垂直导航-->
+    <div class="vertical_nav fl">
+       {template "content","left-nav"}
+        <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  > {$CATEGORYS[$x_catid][catname]} > <a href="{$CATEGORYS[$CATEGORYS[$CATEGORYS[$catid][parentid]][parentid]][url]}">{$CATEGORYS[$CATEGORYS[$CATEGORYS[$catid][parentid]][parentid]][catname]}</a>> <a href="{$CATEGORYS[$CATEGORYS[$catid][parentid]][url]}">{$CATEGORYS[$CATEGORYS[$catid][parentid]][catname]}</a> ><span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <!--不一样的地方-->
+          <!--   <div class="hui_three_right_top">
+                <h3>我们可以提供专业的地推销售团队为会员上门招生</h3>
+                <p>发布时间：2017-01-04     来源：树德咨询      浏览：1000次</p>
+            </div> -->
+              <script type="text/javascript">
+                var VId="{$videourl}";
+                </script>
+            <div class="hui_three_right_bot">
+                <!--视频-->
+                <div class="hui_video clearFix">
+                    <div class="video_left fl">
+                       <div class="prism-player" id="J_prismPlayer"></div>
+                    </div>
+             
+                    <div class="hui_video_right fl">
+                        <table class="video_table  clearFix">
+                            <tr>
+                             {pc:content action="lists" catid="$catid" num="30" order="listorder desc,inputtime Asc,id asc" moreinfo=1}
+                                {loop $data $r}
+                                <td {if $_GET['id']==$r[id]}class="played"{/if}>
+                                    <a href="{$r[url]}" data-href="{$r[videourl]}">{$n}</a>
+                                    <div class="detail">
+                                      {$r[content]}
+                                    </div>
+                                </td>
+                                {/loop}
+                               {/pc}
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+
+                <div class="hui_three_right_bot_text">
+                  {$CATEGORYS[$catid][description]}
+                </div>
+            </div>
+        </div>
+
+ <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+  <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>  
+    <script type="text/javascript" src="{JS_PATH}default/add.js"></script>  
+  <script type="text/javascript">
+      _initPLayer(VId,"100%",'350px');
+  </script>         
+  <script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script>
+  {template "content","footer-main"}      

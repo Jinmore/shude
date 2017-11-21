@@ -1,0 +1,72 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+{template "mobile","nav"}
+<div class="course_video_box">
+        <ul class="course_video" id="videolist_wamp">
+        {pc:content  action="position" posid="1"  order="listorder desc,id DESC" thumb="1" num="3"}
+         {loop $data $r}
+            <li class='videoItem' data-source='{$r[videourl]}'>
+                <div class="prism-player" id="J_prismPlayer_{$n}"></div>
+                <p>{$r[title]}</p>
+            </li>
+            {/loop}
+
+            {/pc}
+
+        </ul>
+        <ul class="series_one">
+ {php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+  {php $this->db->query($sql_count)}
+  {php $total=$this->db->fetch_array()}
+  {php $pagesize=4}
+  {php $page = max(intval($_GET[page]), 1);}
+  {php $offset = $pagesize*($page-1);}
+  {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+  {loop $data $r}
+           {if $r[type]==0}
+           {php $u=list_url($r[catid])}
+           {else}
+            {php $u=page_url($r[catid])}
+           {/if}
+          <li>
+                <a   {if $r[quanxian]==1} onclick="alerton()" {elseif $r[quanxian]==0 }href="{$u}"{/if} class="clearBoth">
+                    <div class="left fl"><img src="{if $r[image]}{$r[image]}{else}statics/images/default/moren.jpg{/if}"></div>
+                    <div class="right fl">
+                        <h3>{$r[catname]}</h3>
+                        <div class="txt">
+                            {str_cut(strip_tags($r[description]),63,"...")}
+                        </div>
+
+                      
+                            {if $r[quanxian]==1}
+                            <script type="text/javascript" >
+                            function alerton() {
+                             alert("该课程尚在研发中，精彩敬请期待……")
+                              }
+                            
+                            </script>
+                              <div class="more" >READ MORE</div>
+                          
+                            {elseif $r[quanxian]==0 }
+                            
+                                   <div class="more" onclick="window.location.href='{$u}'">READ MORE</div>
+                              {/if}
+                    </div>
+                </a>
+            </li>
+{/loop}
+{/pc}
+        </ul>
+             {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{wpa_pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+    </div>
+</div>
+   <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+   <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.5.7/skins/default/index-min.css">
+
+    <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>
+  
+<script type="text/javascript" src="{JS_PATH}default/add_Wa.js"></script>
+{template "mobile","footer"}

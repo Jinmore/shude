@@ -1,0 +1,59 @@
+   {php $CATS=getcache('category_content_1','commons');}
+   <div class="center_bot_left fl">
+            <!--会员中心修改-->
+            <div class="center_modify">
+                <div class="people_top"> <A href="/index.php?m=member&a=account_manage_avatar"><img src="{$avatar[180]}" onerror="javascript:this.src='{IMG_PATH}default/people_top_03.png'"></A></div>
+                <p>{$memberinfo['username']}，您好</p>
+                <ol class="clearFix">
+                {php $exam_course_db=pc_base::load_model('exam_course_model');}
+                {php $courselist=$exam_course_db->select(array('uid'=>$memberinfo[userid]));}           
+                {loop $courselist $v}
+				{if $v[currentid]>0}
+                    <li style="background:url({$CATS[$v[courseid]][icon]}) no-repeat 0 0;background-size: cover;" {if $n>3}class='hide'{/if}>{$v[currentid]}</li>
+                    {if $n==3}<li class="arrow">>></li>{/if}
+				{/if}	
+                {/loop}    
+                </ol>
+            </div>
+            <div class="center_box">
+                <a href="javascript:;" class="clearFix">
+                    <p class="fl center_p">个人设置</p>
+                    <span class="fr center_span"></span>
+                </a>
+            </div>
+            <ul>
+                <li >
+                    <a href="/index.php?m=member&a=init" class="clearFix">
+                        <p class="fl" {if ROUTE_A==init}style="color:#33a643"{/if}>个人状态</p>
+                        <span class="icon2 fr" {if ROUTE_A==init}style="color:#33a643"{/if}>>></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/index.php?m=member&c=index&a=account_manage_password" class="clearFix">
+                        <p class="fl" {if ROUTE_A==account_manage_password}style="color:#33a643"{/if}>安全中心</p>
+                        <span class="icon2 fr" {if ROUTE_A==account_manage_password}style="color:#33a643"{/if}>>></span>
+                    </a>
+                </li>
+                <li>
+                    <a href="/index.php?m=member&c=index&a=account_manage" class="clearFix">
+                        <p class="fl" {if ROUTE_A==account_manage}style="color:#33a643"{/if}>个人资料</p>
+                        <span class="icon2 fr" {if ROUTE_A==account_manage}style="color:#33a643"{/if}>>></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <script>
+
+        $(document).ready(function(){
+
+              $(".center_modify ol").find(".arrow").click(function(){
+                     if($(".hide").css("display")=="none"){
+                         $(".hide").show();
+                     }else {
+                         $(".hide").hide();
+                     }
+                });
+
+        })
+
+        </script>

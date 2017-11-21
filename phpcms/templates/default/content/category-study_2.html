@@ -1,0 +1,163 @@
+{template "content","header"}      
+<body>
+{php $this->exam_course_db=pc_base::load_model('exam_course_model');}
+{php $exam_chapter_db=pc_base::load_model('exam_chapter_model');}
+{php $catinfo=$this->exam_course_db->get_one(array('courseid'=>$catid,'uid'=>$this->_userid))}
+{php $userid=$this->_userid}
+{if $this->_userid}
+<?php 
+$currentid=$catinfo[currentid];//获取当前考试进行阶段
+$arrchildid=trim(str_replace($catid, "", $CATEGORYS[$catid]['arrchildid']),",");
+
+ $arr=explode(",",$arrchildid);
+ foreach ($arr as $key => $value) {   
+     if($currentid<count($arr)) 
+     {
+      if($key==$currentid){
+            $current=$value;       
+        }
+     }else{
+      $current=$value;  
+     }
+    
+ }
+
+//echo $current;
+ $exam_record=pc_base::load_model('exam_record_model');
+ $date =  strtotime(date('Ymd'))-86400;
+ $where="uid=$_userid and courseid=$catid and knowsid=$current and endtime > $date ";
+$records= $exam_record->select($where);
+
+ $lastnum=2-count($records);
+?>  
+
+
+{php $nextid=$catinfo[currentid]+1}
+{else}
+{php $lastnum=0;}
+{/if}
+<?php //计算次数?>   
+
+
+<script type="text/javascript">
+    var current={SYS_TIME};
+    var catid={$catid};
+    var time={$lastnum};   
+</script>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+      {template "content","left-nav"}
+        <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a> >{$CATEGORYS[$x_catid][catname]}> <a href="{$CATEGORYS[$CATEGORYS[$CATEGORYS[$catid][parentid]][parentid]][url]">{$CATEGORYS[$CATEGORYS[$CATEGORYS[$catid][parentid]][parentid]][catname]}</a> > <a href="{$CATEGORYS[$CATEGORYS[$catid][parentid]][url]}">{$CATEGORYS[$CATEGORYS[$catid][parentid]][catname]}</a> ><span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <!--不一样的地方-->
+            <div class="hui_two_top clearFix">
+                <div class="hui_two_top_left fl"><img src="{$CATEGORYS[$catid][image]}"></div>
+                <div class="hui_two_top_right fl">
+                    <h3>{$CATEGORYS[$catid][catname]}</h3>
+                    <div class="hui_two_top_right_text">
+                        {$CATEGORYS[$catid][description]}
+                    </div>
+
+                      <div class="frequency fr">今日剩余次数：<span>{$lastnum}</span>次</div>
+                       <div class="Refresh fr">每天00：00刷新</div>
+                </div>
+            </div>
+            <div class="hui_two_bot">
+                <ul class="clearFix video" >
+		{php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=20}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+            {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+            {loop $data $r}
+              <li data-media-id="{$r[catid]}">
+                 <a href="{$r[url]}" class="tong_text fl"><div class="num">{$n}</div><p>{$r[catname]}</p>
+            {php $chapter_infd=$exam_chapter_db->get_one(array('uid'=>$userid,'courseid'=>$r[parentid],"chapterid"=>$r[catid]));}
+			
+            {php $yxq=$chapter_infd[endtime]}
+             <div class="term">有效期至：{date("Y-m-d",$yxq)}</div>
+             </a> 
+		 
+            {if $userid}
+               {if $current==$n||$nextid>$n}
+                 <a class="tong fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}">已通过</a>                      
+                 {elseif $nextid==$n}    
+                 {if $lastnum<1}  
+				
+                   <a class="tong fr" id="lasttimer" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}">考试</a>    
+                  {else}
+                   <a class="tong fr"  href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#33a643">考试</a>
+                 {/if}                  
+                 
+                   {else}
+                  <a class="tong fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#db0202">未通过</a>
+              {/if}     
+  
+                {else}
+                <a class="tong fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#db0202">未登录</a>    
+                  {/if}
+                    </li>         
+            {/loop}   
+            {/pc}              
+                   
+                  
+                </ul>
+
+         {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+            </div>
+        </div>
+<script src="statics/plugin/layerui/lay/dest/layui.all.js"></script>
+<script src="{JS_PATH}default/checkAuth.js"></script>
+ <script type="text/javascript">
+ /**倒计时计算  暂修改*/
+  var d=new Date();
+  var cd=d.getDay();
+  var cm=d.getMonth();
+  var cy=d.getYear();
+   // var endtime=var today = new Date(cd."/").getTime();
+   // console.log(endtime)
+    if(time<1){     
+      // // setInterval(function(){
+      // var starttime=new Date();         
+      //  var _shijiancha=endtime-starttime.getTime();
+      //  console.log(_shijiancha);
+      //  $("#lasttimer").html(formatSeconds(_shijiancha));
+      //  },1000);
+    }   
+
+function formatSeconds(value) { 
+    var theTime = parseInt(value);// 秒 
+    var theTime1 = 0;// 分 
+    var theTime2 = 0;// 小时 
+    // alert(theTime); 
+    if(theTime > 60) { 
+    theTime1 = parseInt(theTime/60); 
+    theTime = parseInt(theTime%60); 
+    // alert(theTime1+"-"+theTime); 
+    if(theTime1 > 60) { 
+    theTime2 = parseInt(theTime1/60); 
+    theTime1 = parseInt(theTime1%60); 
+    } 
+    } 
+    var result = ""+parseInt(theTime)+"秒"; 
+    if(theTime1 > 0) { 
+    result = ""+parseInt(theTime1)+"分"+result; 
+    } 
+    if(theTime2 > 0) { 
+    result = ""+parseInt(theTime2)+"小时"+result; 
+    } 
+    return result; 
+} 
+ </script>
+{template "content","footer-main"}        

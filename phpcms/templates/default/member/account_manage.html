@@ -1,0 +1,68 @@
+{template 'member', 'header'}
+<style type="text/css">
+	.layui-form{margin: 0 auto;margin-top: 40px;}
+	.layui-form tr th{width: 100px;text-align: right;font-size: 13px;color: #707070;font-weight: normal;border: 1px solid #d1d1d1;widows: 150px;color: #3c3c3c;padding-right:10px;border-top: none;border-right:none; }
+	.layui-form tr td {height: 30px;padding-left:10px;border: 1px solid #d1d1d1;margin-bottom: 15px;border-top:none; font-size: 13px}
+	.layui-form tr td .button{width: 100px;height: 28px;margin-top: 15px;}
+/*表单验证*/
+
+</style>
+<script type="text/javascript" src="{JS_PATH}formvalidator.js" charset="UTF-8"></script>
+<script type="text/javascript" src="{JS_PATH}formvalidatorregex.js" charset="UTF-8"></script>
+<div class="inner">
+    <div class="center_bot clearFix">
+    {template "member","left"}
+  
+        <div class="center_bot_right fl">
+          
+            <div class="center_bot_right_title">个人资料</div>
+            <div class="center_table_box">
+                	<table width="100%" cellspacing="0" class="layui-form">
+					<tr>
+						<th style="border-top:1px solid #d1d1d1">{L('username')}：</th>        
+						<td style="border-top:1px solid #d1d1d1">{$memberinfo['username']}</td>
+					</tr>
+					
+					<tr>
+						<th >{L('regtime')}：</th>        
+						<td>{FORMAT::date($memberinfo['regdate'] ,1)}</td>
+					</tr>
+					<tr>
+						<th>{L('lastlogintime')}：</th>        
+						<td>{FORMAT::date($memberinfo['lastdate'] ,1)}</td>
+					</tr>
+					<tr>
+						<th >{L('regip')}：</th>        
+						<td>{$memberinfo['regip']}</td>
+					</tr>
+					<tr>
+						<th >{L('lastip')}：</th>        
+						<td>{$memberinfo['lastip']}</td>
+					</tr>
+					<tr>
+						<th >{L('mp')}：</th>        
+						<td style="color:#ff6600;"><strong>{if $memberinfo['mobile']}{substr($memberinfo['mobile'],0,3)}****{substr($memberinfo['mobile'],-4)}{/if}</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+					</tr>
+					
+					{loop $member_modelinfo $k $v}
+					<tr>
+						<th width="120">{$k}：</th>   
+	
+						<td>{if $k=='身份证号'&&$v}{substr($v,0,6)}****{substr($v,-4)}{else}{$v}{/if}</td>
+					</tr>
+					{/loop}
+				</table>
+                           
+
+               
+            </div>
+            
+         
+
+        </div>
+
+    </div>
+</div>
+
+
+{template 'member', 'footer'}

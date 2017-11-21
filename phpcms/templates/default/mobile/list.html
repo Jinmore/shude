@@ -1,0 +1,26 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+    {template "mobile","nav"}
+    <div class="dongTai_box">
+        <ul class="dongTai">
+
+        {loop $list $v}
+            <li>
+                <a href="{show_url($v[catid],$v[id])}">
+                    <img src="{if $v[thumb]}{$v[thumb]}{else}statics/images/default/moren.jpg{/if}">
+                    <h3>{$v[title]}</h3>
+                    <p class="p1">{date("Y-m-d",$v[inputtime])}</p>
+                    <p class="p2">
+                        {$v[description]}
+                    </p>
+                    <p class="p3">READ MORE>></p>
+                </a>
+            </li>
+        {/loop}    
+          
+        </ul>
+        <div class="page">{$poges}</div>
+    </div>
+</div>
+{template "mobile","footer"}

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+  
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}wap/Validform_v5.3.2.js"></script> 
+ 
+    <script src="{JS_PATH}wap/base.js?v=111"></script>
+</head>
+ <body class="gray">
+<div class="base_arrow">
+    <a href="/index.php?m=mobile"></a>
+    <p>会员中心</p>
+</div>
+<div class="huiYuan_bg">
+    <a href="{APP_PATH}index.php?m=member&c=index&a=account_manage_avatar" class="header_pic"><img src="{$avatar[90]}" onerror="javascript:this.src='{IMG_PATH}wap/header_pic_03.png'"></a>
+    <p>欢迎来到树德，{$memberinfo['username']}您好</p>
+    <div class="header_icon_box">
+	{php $exam_course_db=pc_base::load_model('exam_course_model');}
+    {php $courselist=$exam_course_db->select(array('uid'=>$memberinfo[userid]));}    
+	{if $courselist}
+        <ol class="header_icon clearBoth">
+                       
+                {loop $courselist $v}
+				{if $v[currentid]>0}				
+                    <li class="header_icon1 fl" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat 0 0;background-size: cover;" {if $n>3}class='hide'{/if}>{$v[currentid]}</li>
+                    {if $n==3}<li class="arrow">>></li>{/if}
+				{/if}	
+                {/loop}    
+          
+        </ol>
+	{/if}	
+    </div>
+</div>
+<div class="huiYuan_bot">
+    <ul class="huiYuan_ul">
+        <li>
+            <a href="/index.php?m=member&a=wapinit" class="clearBoth">
+                <p class="fl">个人状态</p>
+                <div class="right fr"></div>
+            </a>
+        </li>
+        <li>
+            <a href="/index.php?m=member&c=index&a=account_manage_password" class="clearBoth">
+                <p class="fl">安全中心</p>
+                <div class="right fr"></div>
+            </a>
+        </li>
+        <li>
+            <a href="/index.php?m=member&c=index&a=account_manage" class="clearBoth">
+                <p class="fl">个人资料</p>
+                <div class="right fr"></div>
+            </a>
+        </li>
+    </ul>
+    <a href="{APP_PATH}index.php?m=member&c=index&a=logout" class="quit">退出</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,55 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+        <div class="vertical_logo"><img src="{IMG_PATH}default/base_logo_02.jpg"></div>
+       
+               {template "content","left-nav"}
+    
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的111位置：首页 >  {$CATEGORYS[$x_catid][catname]} > <span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <!--不一样的地方-->
+            <div class="hui_two_top clearFix">
+                <div class="hui_two_top_left fl"><img src="{$thumb}"></div>
+                <div class="hui_two_top_right fl">
+                    <h3>乐高NXT搭桥机器人 A阶段</h3>
+                    <div class="hui_two_top_right_text">
+                        我们每年会为会员机构无偿提供价值数万元的商学院服务。我们会特聘一些在培训行业内非常有经验的大咖，针对市场、销售、教学、服务、管理等一系列大家所关心的课题，举办为期数天的培训课程/论坛，以使大家在奋斗路上并不孤单，一边对标行业中的成功案例，把握方向的正确性；一边充电提高，以便开动更大马力前行。我们每年会为会员机构无偿提供价值数万元的商学院服务。我们会特聘一
+                    </div>
+                </div>
+            </div>
+            <!--课程二bot-->
+            <div class="ke_two_bot">
+           {$content}
+			
+		 {pc:content action="relation" relation="$relation" id="$id" catid="$catid" num="2" }
+		 {if $data}
+           <div class="three_shi">课程视频</div>
+                <ul class="kec_one clearFix">
+                {loop $data $r}
+                    <li>
+                        <img src="{$r[thumb]}">
+                        <a href="javascript:;">搭桥机器人</a>
+                    </li>
+                 {/loop}   
+                   
+                </ul>
+                <div class="shi_center">
+                 {loop $data $r}
+                    <video src="{$r[videourl]}" controls="controls" width="700px" height="532px"></video>
+                 {/loop}   
+                  
+                    <div class="guan"><img src="{IMG_PATH}default/ch.png"></div>
+                </div>
+           <div class="hei"></div>
+           {/if}
+		{/pc}
+            </div>
+		
+        </div>

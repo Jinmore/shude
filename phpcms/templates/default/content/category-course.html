@@ -1,0 +1,81 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">      
+       <!--二级菜单-->
+           {template "content","left-nav"}
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr" >
+        <div class="vertical_base_title">您当前的位置：首页 >  {$CATEGORYS[$x_catid][catname]} > <span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <!--课程介绍机器人-->
+            <ul class="kec_one clearFix" id="videolist">           
+             {pc:content  action="position" posid="1"  order="listorder desc,id DESC" thumb="1" num="3"}
+             {loop $data $r}
+                <li class='videoItem' data-source='{$r[videourl]}'>
+                    <a href="javascript:;" class="kec_one_video">  <img src="{$r[thumb]}">
+                    <span><img src="{IMG_PATH}default/an_03.png"></span></a>
+                    <a href="javascript:;" class="kec_one_a">{$r[title]}</a>
+                </li>
+                {/loop}
+               {/pc}
+            </ul>
+            <div class="shi_center">
+			         <div class="guan"><img src="{IMG_PATH}default/ch.png"></div>   
+                <div class="prism-player" id="J_prismPlayer"></div>
+            </div>
+           
+            <div class="hei"></div>
+
+ <div class="right_modify">
+                <ul>
+		  {php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=3}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+          {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+		  
+            {loop $data $r}
+                    <li class="clearFix">
+                        <a class="left fl"><img src="{if $r[image]}{$r[image]}{else}{IMG_PATH}default/moren.jpg{/if}"></a>
+                        <div class="right fl">
+                            <div class="right_h3" >{$r[catname]}</div>
+                            <div class="right_text">
+                                {$r[description]}
+                            </div>
+							
+                            {if $r[quanxian]==1}
+          							<script type="text/javascript" >
+          							function alerton() {
+          							 alert("该课程尚在研发中，精彩敬请期待……")
+          							  }
+          							
+          							</script>
+							<a class="right_more" onclick="alerton()">READ MORE</a>
+							{elseif $r[quanxian]==0 }
+							
+                            <a href="{$r[url]}" class="right_more" >READ MORE</a>
+							{/if}
+                        </div>
+                    </li>
+            {/loop}                
+            
+                </ul>
+            {/pc}    
+            {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+            </div>
+          </div>
+	 <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>
+
+    <script type="text/javascript" src="{JS_PATH}default/add.js"></script>
+      {template "content","footer-main"}

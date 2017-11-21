@@ -1,0 +1,22 @@
+{template "mobile","header"}
+
+
+<div class="main">
+    <!--公用的title-->
+ {template "mobile","nav"}
+    <div class="dongTai2_top">
+        <h3>{$title}</h3>
+        <p>发布时间：{date('Y-m-d',strtotime($inputtime))}    来源：{if $copyfrom}{$copyfrom}{else}树德教育{/if}   浏览次数：<samp id="hits">0</samp></p>
+    </div>
+    <div class="dongTai2_bot">
+       {$rs[content]}
+
+    </div>
+</div>
+<script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script>
+
+<script src='statics/js/ckeditor/plugins/lVideo/player/jwplayer/jwplayer.js'></script>
+
+ <script src='statics/js/ckeditor/plugins/lVideo/player/jwplayer/jwpsrv.js'></script>
+
+{template "mobile","footer"}

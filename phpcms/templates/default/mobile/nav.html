@@ -1,0 +1,17 @@
+ <ul class="base_ul clearBoth">
+
+ {pc:content action="category" catid="$x_catid" num="10" siteid="$siteid" order="listorder ASC" return="infoas"}  
+   {if $infoas}
+   {loop $infoas $as}
+   {if $as[type]==0}
+   {php $erurl=list_url($as[catid]);}
+   {else}
+   {php $erurl=page_url($as[catid]);}
+   {/if}
+    <li class="fl"><a href="{$erurl}" {if $catid==$as[catid]||$CATES[$catid][parentid]==$as[catid]||$CATES[$CATES[$catid][parentid]][parentid]==$as[catid]||$CATES[$CATES[$CATES[$catid][parentid]][parentid]][parentid]==$as[catid]}class="click"{/if}>{$as[catname]}</a></li>
+   {/loop} 
+    {else}
+    <li class="fl"><a href="{list_url($x_catid)}" class="click">{$CATES[$x_catid][catname]}</a></li>
+   {/if}
+   {/pc}   
+  </ul>

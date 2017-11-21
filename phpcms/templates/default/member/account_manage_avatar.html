@@ -1,0 +1,69 @@
+{template 'member', 'header'}
+<div class="inner">
+    <div class="center_bot clearFix">
+    {template "member","left"}
+    <style>
+   .col-right{float: right}
+    </style>
+        <div class="center_bot_right fl">
+          
+            <div class="center_bot_right_title">修改头像</div>
+            <div class="center_table_box">
+                <div class="bot">
+                  <script language="javascript" type="text/javascript" src="{$phpsso_api_url}/statics/js/swfobject.js"></script>
+				<script type="text/javascript">
+					var flashvars = {
+						'upurl':"{$upurl}&callback=return_avatar&"
+					}; 
+					var params = {
+						'align':'middle',
+						'play':'true',
+						'loop':'false',
+						'scale':'showall',
+						'wmode':'window',
+						'devicefont':'true',
+						'id':'Main',
+						'bgcolor':'#ffffff',
+						'name':'Main',
+						'allowscriptaccess':'always'
+					}; 
+					var attributes = {
+						
+					}; 
+					swfobject.embedSWF("{$phpsso_api_url}/statics/images/main.swf", "myContent", "490", "434", "9.0.0","{$phpsso_api_url}/statics/images/expressInstall.swf", flashvars, params, attributes);
+
+					function return_avatar(data) {
+						if(data == 1) {
+							window.location.reload();
+						} else {
+							alert('failure');
+						}
+					}
+				</script> 
+				<ul class="col-right col-avatar" id="avatarlist">
+				  {loop $avatar $k $v}
+					<li>
+						<img src="{$v}" height="{$k}" width="{$k}" onerror="this.src='{$phpsso_api_url}/statics/images/member/nophoto.gif'"><br />
+						{L('avatar')}{$k} x {$k}
+					</li>
+				  {/loop}
+				</ul>
+				<div class="col-auto">
+					<div id="myContent"> 
+					  <p>Alternative content</p> 
+					</div>
+				</div>
+                   
+             
+
+                </div>
+            </div>
+            
+         
+
+        </div>
+
+    </div>
+</div>
+
+{template 'member', 'footer'}

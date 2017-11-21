@@ -1,0 +1,32 @@
+{php $_u=param::get_cookie('_userid')}
+ <div class="header clearFix">
+        <a href="/" class="logo fl"><img src="{IMG_PATH}default/logo2.png"></a>
+        <ul class="nav fl">
+            <li><a href="/"  {if ROUTE_A=='init'&&ROUTE_M=='content'}class="nav_color" {/if}>首页</a></li>
+
+{pc:content action="category" catid="0" num="9" siteid="$siteid" order="listorder ASC"}
+      {php $m=0;}
+		{loop $data $r}
+		{if $r[child]==0||$r[catid]==14}
+		<li {if $catid==$r[catid]||$x_catid==$r[catid]} class="nav_hov" {/if}><a href="{$r[url]}"  {if $r[type]==2} target="_blank"{/if}>{$r[catname]}</a></li>
+		{else}
+		{php $j=0;}
+		{php $d=0;}
+		{loop subcat($r[catid]) $m}
+			{php $j++;}
+			{if $j==1}				
+				{php $xj_url=$m[url];}
+			{/if}
+		{/loop}
+		<li  {if $catid==$r[catid] || $CATEGORYS[$catid][parentid]==$r[catid]} class="nav_color" {/if}><a href="{$xj_url}">{$r[catname]}</a></li>
+		{/if}
+		{/loop}
+		{/pc}
+ 
+        </ul>
+		{if empty($_u)}
+        <a target="_blank" href="?m=member&a=login&forward={urlencode($_GET['forward'])}&sited=1" class="sign fr">会员登录</a>
+		{else}
+		<a href="?m=member&a=init&sited=1" target="_blank" class="sign fr">个人中心</a>
+        {/if}
+    </div>

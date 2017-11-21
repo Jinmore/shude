@@ -1,0 +1,35 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+        
+       {template "content","left-nav"}
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+    <div class="vertical_base_title">您当前的位置：<a href="/">首页</a> >{if $x_catid!=$catid}{$CATEGORYS[$x_catid][catname]}
+	> {/if}<a href="{$CATEGORYS[$catid][url]}" style="color:#33a643">{$CATEGORYS[$catid][catname]}</a> </div>
+        <div class="huiYuan_one_right_box">
+            <!--企业动态二-->
+            <div class="dongTai_two_title">
+                <h3>{$title}</h3>
+                <p>发布时间：{date("Y-m-d",$rs[inputtime])}    {if $copyfrom} 来源：{$copyfrom} {else} 来源：树德咨询 {/if}    浏览：<samp id="hits"></samp>次</p>
+            </div>
+ 			<div class="content">
+ 				   {$content}
+ 			</div>
+        </div>
+        <div class="hui_three_prev_next clearFix">
+            <a href="{$previous_page[url]}" class="hui_three_prev fl">上一篇 ：{$previous_page[title]}</a>
+            <a href="{$next_page[url]}" class="hui_three_next fr">下一篇：{$next_page[title]}</a>
+        </div>
+
+<script language="JavaScript" src="{APP_PATH}api.php?op=count&id={$id}&modelid={$modelid}"></script>
+<script src='statics/js/ckeditor/plugins/lVideo/player/jwplayer/jwplayer.js'></script>
+
+ <script src='statics/js/ckeditor/plugins/lVideo/player/jwplayer/jwpsrv.js'></script>
+
+{template "content","footer-main"}

@@ -1,0 +1,52 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+{template "mobile","nav"}
+
+  {php $result=array()}
+         {pc:content action="lists" catid="$catid" num="4" order="listorder desc,inputtime Asc,id asc" moreinfo=1}
+            {loop $data $r}
+            {php $result[]=$r}
+            {/loop}
+         {/pc}
+    <div class="course_xiLie">
+    	{if $result[0]}
+        <div class="course_xiLie_top">
+            <img src="{$result[0][thumb]}">
+            <h3>{$result[0][title]}</h3>
+            <p>{$result[0][content]}</p>
+        </div>
+
+           <div class="course_xiLie_bot clearBoth">
+            <div class="title">{$result[1][title]}
+			</div>
+           
+            <div class="text" height="99%" ; width="99%";>
+               {$result[1][content]}
+            </div>
+            <div class="title title2 fr"> {$result[2][title]}</div>
+             {$result[2][content]}
+        </div>
+
+        {/if}
+
+        <ul class="course_video" id="videolist_wamp">
+              {pc:content action="relation" relation="$result[3]['relation']" id="$result[3]['id']" catid="$catid" num="2"}
+            {loop $data $r}
+             <li class='videoItem' data-source='{$r[videourl]}'>
+                <div class="prism-player" id="J_prismPlayer_{$n}"></div>
+                <p>{$r[title]}</p>
+            </li>
+            {/loop}
+
+            {/pc}
+
+        </ul>
+    </div>
+</div>
+  <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+   <link rel="stylesheet" href="http://g.alicdn.com/de/prismplayer/1.5.7/skins/default/index-min.css">
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>
+<script type="text/javascript" src="{JS_PATH}default/add_Wa.js"></script>
+{template "mobile","footer"}

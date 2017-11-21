@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>{$mobile['sitename']}</title>
+<meta name="keywords" content="{$mobile['keywords']}">
+<meta name="description" content="{$mobile['description']}">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link href="{CSS_PATH}wap/swiper.min.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css?v={time()}" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}wap/Validform_v5.3.2_min.js"></script>
+    <script src="{JS_PATH}wap/swiper.min.js"></script>
+    <script src="{JS_PATH}wap/base.js"></script>
+    <script>
+        $(document).ready(function(){
+            banner();
+        })
+    </script>
+    {template "mobile","dm"}
+</head>
+<body>
+{php $userid=param::get_cookie("_userid");}
+
+<!--头部-->
+<div class="header clearBoth">
+    <a class="logo fl" href="{MOBILE_SITEURL}"><img src="{$mobile['logo']}"></a>
+    <a href="#" class="set fr"><img src="{IMG_PATH}wap/set_06.png"></a>
+    <a href="#" class="close fr"><img src="{IMG_PATH}wap/close_03.png"></a>
+     {if $userid}
+    <a href="/index.php?m=member&a=init" class="people fr"><img src="{IMG_PATH}wap/people_06.png"></a>
+    {else}
+     <a href="/index.php?m=member&a=login" class="people fr"><img src="{IMG_PATH}wap/people_06.png"></a>
+    {/if}
+   
+</div>
+<!--下拉列表-->
+<ul class="menu">
+    <li><a href="{MOBILE_SITEURL}">首页</a></li>
+    {php $naves=getcache('mobile_navs','mobile');}
+    {loop $naves $r}
+    {if $r[parentid]==0}
+    {if $r[catid]==14} 
+       {if $r[type]==0}
+        {php $b=list_url($r[catid])}
+        {else}
+        {php $b=page_url($r[catid])}
+        {/if}
+        <li><a href="{$b}">{$r[catname]}</a></li>
+    {else}
+       {pc:content action="category" catid="$r[catid]" num="1" siteid="$siteid" order="listorder ASC" return="infoas"}  
+            {if $infoas}
+            {loop $infoas $ina}
+            {if $ina[type]==0}
+            {php $u=list_url($ina[catid])}
+            {else}
+            {php $u=page_url($ina[catid])}
+            {/if}
+            {/loop}
+            {else}
+            {php $u=$r[url]}
+            {/if}
+            {/pc}
+            <li><a href="{$u}">{$r[catname]}</a></li>  
+       {/if}      
+      {/if}
+   
+    {/loop}  
+</ul>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{$CATEGORYS[$knowsid][catname]}</title>
+    <link href="{CSS_PATH}default/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}default/index.css" rel="stylesheet" type="text/css">
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}default/base.js"></script>
+    <script src="{JS_PATH}default/slider.js"></script>
+    <script>
+        $(document).ready(function(){
+            /*禁止页面刷新*/
+            document.onkeydown = function() {
+                if(event.keyCode==116) {
+                    event.keyCode=0;
+                    event.returnValue = false;
+                }
+            };
+            document.oncontextmenu = function() {event.returnValue = false;}
+        })
+    </script>
+</head>
+<body>
+<div class="begin_box">
+<script type="text/javascript">
+    var catid={$CATEGORYS[$knowsid][parentid]};
+	var subflag=false;
+</script>
+    <div class="begin">
+        <h3>请认真完成试题。准备好了吗？</h3>
+        <a href="javascript:;" class="clearFix">
+            <p class="fl">start</p>
+            <span class="fl"><img src="{IMG_PATH}default/begin_a_03.jpg"></span>
+        </a>
+    </div>
+</div>
+<div class="inner">
+    <div class="test">
+        <div class="test_title clearFix">
+            <h3>实验室培训及考核平台试题</h3>
+            <div class="test_time clearFix">
+                <div class="test_second fr">0秒</div>
+                <div class="test_minute fr">0分</div>
+                <div class="test_hour fr">0时</div>
+            </div>
+        </div>
+        <div class="Choice clearFix">
+            <div class="left fl">选择题<span>(单选题 )</span></div>
+            <div class="right fr">共 15 题</div>
+        </div>
+        <form method="post">
+        {php $xuhao=1}
+        {loop $list_info $v}
+        <div class="test_one {if $xuhao%2==0}test_two{/if}">
+            <div class="test_one_title_box clearFix">
+                <div class="test_one_title fl">{$xuhao}、{$v[question]}</div>
+                <img src="{IMG_PATH}default/yes_03.png" class="yes fl">
+                <img src="{IMG_PATH}default/yes_07.png" class="no fl">
+            </div>
+            {php $selecte=string2array($v[selecte]);}   
+            {php $i=1}       
+            <div class="test_form_top clearFix">
+               {loop $selecte $k $b}
+                <div class="clearFix test_form fl">
+                    <label data-id="{$v[id]}###{$i}">
+                        <input type="radio" name="choice_{$v[id]}" class="fl">
+                        <div class="option fl"></div>
+                        <p class="fl">{$sign[$i]}、{$b}</p>
+                    </label>
+                </div>
+                {php $i++}
+                {/loop}             
+            </div>
+          </div>
+        {php $xuhao++}
+        {/loop}
+   
+        <div class="test_sub">
+         <input type="hidden" name="dosubmit" value="1">
+            <input type="hidden" name="timesamp" value="{$timesamp}">
+            <input type="button" value="提交" id="exam_submit">
+        </div>
+        </form>
+    </div>
+</div>
+<div class="test_adopt">
+    <h3 class="adopt"><img src="{IMG_PATH}default/test_adopt_03.png">恭喜您，通过了</h3>
+    <h3 class="fail"><img src="{IMG_PATH}default/fail_03.png">很遗憾，您未通过</h3>
+    <div class="test_confirm">确定</div>
+    <div class="seal"><img src="{IMG_PATH}default/seal_03.png"></div>
+    <div class="fail_pic"><img src="{IMG_PATH}default/fail_pic_03.png"></div>
+</div>
+<div class="blank"></div>
+<script type="text/javascript" src="{JS_PATH}cookie.js"></script>
+<script type="text/javascript">
+        //考试
+$(document).ready(function(){
+    $(".hui_two_bot ul").find("li").each(function(){
+        $(this).find(".tong").click(function(){
+            fiveT();
+            $(".rule").show();
+            $(".blank").show();
+        })
+    });
+    $(".rule_close").click(function(){
+        $(".rule").hide();
+        $(".blank").hide();
+    });
+    var intDiff = parseInt(300);//倒计时总秒数量
+//    var intDiff=getcookie('_time');
+//    if(typeof(intDiff)=='undefined'||intDiff=='NaN'){
+//        intDiff = parseInt(300);
+//    }
+    function timer(intDiff){
+        var textT=setInterval(function(){
+            var day=0,
+                hour=0,
+                minute=0,
+                second=0;//时间默认值
+            if(intDiff > 0){
+                day = Math.floor(intDiff / (60 * 60 * 24));  //一天
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }else {
+                clearInterval(textT);
+				if(!subflag)
+                autoclick();
+              
+				
+//                delcookie('_time');
+            }
+            $('.test_hour').html(+hour+'时');
+            $('.test_minute').html(+minute+'分');
+            $('.test_second').html(+second+'秒');
+            intDiff--;
+//            setcookie('_time',intDiff);
+        }, 1000);
+    }
+     timer(intDiff);
+	 var n=1;
+    function autoclick(){
+		console.log(n++)
+        $("#exam_submit").trigger("click");  //让系统自动执行单击事件
+    }
+//     $(".begin_box").find("a").click(function(){
+//        $(".begin_box").hide();
+//     });
+})
+  
+</script>
+<script type="text/javascript" src="{JS_PATH}default/exam.js"></script>
+</body>
+</html>

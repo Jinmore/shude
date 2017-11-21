@@ -1,0 +1,20 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+          {template "content","left-nav"}
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  > <a href="{$CATEGORYS[$x_catid][url]}">{$CATEGORYS[$x_catid][catname]}</a> > <span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <div class="gaiLan">
+                 {$content}
+            </div>
+        </div>
+
+
+{template "content","footer-main"}

@@ -1,0 +1,96 @@
+{template "mobile","header"}
+{php $this->exam_course_db=pc_base::load_model('exam_course_model');}
+{php $exam_chapter_db=pc_base::load_model('exam_chapter_model');}
+{php $catinfo=$this->exam_course_db->get_one(array('courseid'=>$catid,'uid'=>$userid))}
+{php $userid=$userid}
+{if $userid}
+<?php 
+$currentid=$catinfo[currentid];//获取当前考试进行阶段
+$arrchildid=trim(str_replace($catid, "", $CATEGORYS[$catid]['arrchildid']),",");
+
+ $arr=explode(",",$arrchildid);
+ foreach ($arr as $key => $value) {   
+     if($currentid<count($arr)) 
+     {
+      if($key==$currentid){
+            $current=$value;       
+        }
+     }else{
+      $current=$value;  
+     }
+    
+ }
+//echo $current;
+ $exam_record=pc_base::load_model('exam_record_model');
+ $date =  strtotime(date('Ymd'))-86400;
+ $where="uid=$userid and courseid=$catid and knowsid=$current and endtime > $date ";
+$records= $exam_record->select($where);
+ $lastnum=2-count($records);
+?>  
+{php $nextid=$catinfo[currentid]+1}
+{else}
+{php $lastnum=0;}
+{/if}
+<?php //计算次数?>   
+<div class="main">
+    <!--公用的title-->
+   {template "mobile","nav"}
+    <!--视频-->
+    <div class="video_box">
+        <div class="video">
+            <img src="{$CATEGORYS[$catid][wapimage]}">
+        </div>
+        <div class="video_bot clearBoth">
+            <h3>{$CATEGORYS[$catid][catname]}</h3>
+            <p class="p1">
+                 {$CATEGORYS[$catid][description]}
+            </p>
+            <p class="p2 fr">今日剩余次数：<span>{$lastnum}</span>次</p>
+        </div>
+    </div>
+    <ul class="exam video">
+    	{php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=20}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+            {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+            {loop $data $r}
+
+             {php $chapter_infd=$exam_chapter_db->get_one(array('uid'=>$userid,'courseid'=>$r[parentid],"chapterid"=>$r[catid]));}
+            {php $yxq=$chapter_infd[endtime]}
+        <li class="clearBoth" data-media-id="{$r[catid]}" data-href="{list_url($r[catid])}">
+            <div class="left fl num">{$n}</div>
+            <div class="mid fl">
+                <p class="p1">{$r[catname]}</p>
+                <p class="p2">有效期至：{date("Y-m-d",$yxq)}</p>
+            </div>
+             {if $userid}
+               {if $current==$n||$nextid>$n}
+                 <a class="right fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}">已通过</a>                      
+                 {elseif $nextid==$n}    
+                 {if $lastnum<1}  
+                   <a class="right fr" id="lasttimer" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}">考试</a>    
+                  {else}
+                   <a class="right fr"  href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#33a643">考试</a>
+                 {/if}                  
+                 
+                   {else}
+                  <a class="right fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#db0202">未通过</a>
+              {/if}     
+  
+                {else}
+                <a class="right fr" href="?m=exam&c=index&a=exam_rules&step=1&catid={$catid}&chapterid={$r[catid]}" style="background:#db0202">未登录</a>    
+                  {/if}           
+        </li>
+		{/loop}
+     
+      {/pc}
+       
+    </ul>
+  
+</div>
+<script src="statics/plugin/layerui/lay/dest/layui.all.js"></script>
+<script type="text/javascript" src="{JS_PATH}wap/checkAuth.js"></script>
+{template "mobile","footer"}

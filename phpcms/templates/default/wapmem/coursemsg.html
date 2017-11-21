@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>会员中心-课程系列</title>
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+  
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    
+</head>
+<body class="gray">
+<div class="base_arrow">
+    <a href="javascript:history.go(-1)"></a>
+    <p>会员中心</p>
+</div>
+<div class="my">
+    <div class="my_bot">
+        <div class="my_bot_title clearBoth">
+            <div class="left fl">课程名称</div>
+            <div class="mid fl">权限</div>
+            <div class="right fl">学习等级</div>
+        </div>
+ {php $exam_chapter_db=pc_base::load_model('exam_chapter_model');}
+  {loop  $clistinfo  $k $v}
+        <div class="xiLie_one">
+            <div class="one clearBoth">
+                <div class="left fl clearBoth">
+                    <img src="{IMG_PATH}wap/up_03.png" class="up fl">
+                    <img src="{IMG_PATH}wap/down_03.png" class="down fl">
+                    <p class="fl"> {$CATS[$v[courseid]][catname]}({$CATS[$CATS[$v[courseid]][parentid]][catname]})</p>
+                </div>
+                <div class="mid fl"></div>
+                <div class="right fl"></div>
+            </div>
+            <div class="xiLie_one_content">
+             {pc:content action="category" catid="$v[courseid]" num="20" order="listorder ASC"}
+               {loop $data $r}
+                {php $info=$exam_chapter_db->get_one(array('uid'=>$memberinfo['userid'],'courseid'=>$v[courseid],'chapterid'=>$r[catid]));}
+                            {if $info}
+                <div class="xiLie_one_content_one clearBoth">
+                    <div class="zuo fl">
+                        <a href="{$CATS[$v[courseid]][url]}"><p class="p1">{$r[catname]}</p></a>
+                        <p class="p2">有效期至：{date("Y-m-d",$info[endtime])}</p>
+                    </div>
+                      {if $info['status']==-1}
+                      <div class="nolimit fl"></div>
+                      {else}
+                       {if $info[endtime]<SYS_TIME}
+                        <div class="nolimit fl"></div>
+                        {else}
+                        <div class="zhong fl"></div>
+                      {/if}                               
+                      {/if}
+                    {if $info['status']==1}
+                     <div class="you fl" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat  center center;">{$n}</div>
+                        {elseif $info[status]==0}
+                          <div class="you fl" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat  center center;">0</div>
+                       {/if}                    
+                </div>
+                {else}
+                <div class="xiLie_one_content_one clearBoth">
+                    <div class="zuo fl">
+                        <p class="p1">{$r[catname]}</p>
+                        <p class="p2">有效期至：无权限</p>
+                    </div>
+                     <div class="nolimit fl"></div>                    
+                </div>                
+                {/if}
+                {/loop}
+              {/pc}                       
+            </div>
+        </div>
+{/loop}       
+
+    </div>
+<div id="pages" class="page" align="center">{$pages}</div>
+    <script type="text/javascript">
+        $(document).ready(function(){
+             //个人状态
+          $(".my_bot").find(".xiLie_one").each(function(){
+              $(this).find(".one").click(function(){
+                  if($(this).find(".down").css("display")=="none"){
+                      $(".up").hide();
+                      $(".down").show();
+                  }else {
+                      $(".up").show();
+                      $(".down").hide();
+                  }
+                  $(this).parent().siblings().find(".up").show();
+                  $(this).parent().siblings().find(".down").hide();
+                  $(this).siblings().slideToggle();
+                  $(this).parent().siblings().find(".xiLie_one_content").slideUp();
+              })
+          });
+        })
+
+    </script>
+</div>
+</body>
+</html>

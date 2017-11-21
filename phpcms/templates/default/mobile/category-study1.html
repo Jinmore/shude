@@ -1,0 +1,36 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+    {template "mobile","nav"}
+    <div class="dongTai_box">
+        <ul class="dongTai">
+
+         {php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=4}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+            {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+            {loop $data $v}
+            <li>
+                <a href="{list_url($v[catid])}">
+                    <img src="{if $v[wapimage]}{$v[wapimage]}{else}statics/images/default/moren.jpg{/if}">
+                    <h3>{$v[catname]}</h3>
+                
+                    <p class="p2">
+                        {$v[description]}
+                    </p>
+                    <p class="p3">READ MORE>></p>
+                </a>
+            </li>
+        {/loop}    
+
+         {/pc}         
+        </ul>
+         {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{wpa_pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+    </div>
+</div>
+{template "mobile","footer"}

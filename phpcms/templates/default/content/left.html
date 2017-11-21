@@ -1,0 +1,37 @@
+<div class="fo1">
+	<div class="tit"><span>{$CATEGORYS[$x_catid][catname]}</span></div>
+	<ul>
+	{pc:content action="category" catid="$x_catid" num="10" siteid="$siteid" order="listorder ASC"}
+		{if $data}
+		{loop $data $r}
+		{if $r[child]==0}
+			<li><a href="{$r[url]}" {if $catid==$r[catid]}class="on"{/if} >{$r[catname]}</a></li>
+		{else}
+		  {pc:content action="category" catid="$r[catid]" num="1" siteid="$siteid" order="listorder ASC" return="infoas"}
+		  {loop $infoas $v}
+			<li><a href="{$v[url]}" {if $CATEGORYS[$catid][parentid]==$r[catid] || $catid==$r[catid]}class="on"{/if} >{$r[catname]}</a></li>
+		  {/loop}
+		  {/pc}
+		  
+		  {pc:content action="category" catid="$r[catid]" num="10" siteid="$siteid" order="listorder ASC" return="infoas"}
+			{if $infoas}
+			{if $CATEGORYS[$catid][parentid]==$r[catid] || $catid==$r[catid]}
+				<li class="er">
+			{loop $infoas $v}
+				<a href="{$v[url]}" {if $catid==$v[catid]}class="on"{/if} >{$v[catname]}</a>
+			{/loop}
+				</li>
+			{/if}
+			{/if}
+		  {/pc}
+	  
+		{/if}
+		
+		{/loop}
+		{else}
+			<li><a href="{$CATEGORYS[$catid][url]}" class="on" >{$CATEGORYS[$catid][catname]}</a></li>
+		{/if}
+		<div class="cl"></div>
+	{/pc}
+	</ul>
+</div>

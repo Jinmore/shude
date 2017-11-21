@@ -1,0 +1,107 @@
+{template "member","header"}
+<div class="inner">
+    <div class="center_bot clearFix">
+    {template "member","left"}
+        {php $exam_chapter_db=pc_base::load_model('exam_chapter_model');}
+        <div class="center_bot_right fl">
+          
+            <div class="center_bot_right_title">个人状态</div>
+            <div class="center_table_box">
+                <div class="bot">
+                    <div class="bot_title clearFix">
+                        <div class="bot_title_one">课程名称</div>
+                        <div class="bot_title_two">权限</div>
+                        <div class="bot_title_three">学习等级</div>
+                    </div>
+                   
+                  {loop  $clistinfo  $k $v}
+                
+                    <div class="series">
+                        <div class="series_title_box clearFix">
+                            <div class="series_one">
+                                <img src="{IMG_PATH}default/table_arrow_03.png" class="up">
+                                <img src="{IMG_PATH}default/down_arrow_03.png" class="down">
+                               {$CATS[$v[courseid]][catname]}({$CATS[$CATS[$v[courseid]][parentid]][catname]})
+							 
+                            </div>
+                            <div class="series_two"></div>
+                            <div class="series_three"></div>
+                        </div>
+                        <div class="series_content">
+                        {pc:content action="category" catid="$v[courseid]" num="20" order="listorder ASC,inputtime ASC"}
+                        {loop $data $r}
+                            {php $info=$exam_chapter_db->get_one(array('uid'=>$memberinfo['userid'],'courseid'=>$v[courseid],'chapterid'=>$r[catid]));}
+                            {if $info}
+                            <div class="series_box clearFix">
+                                <div class="left clearFix">
+                                    <a href="{$CATS[$v[courseid]][url]}" target="_blank"><p class="fl">{$r[catname]}</p></a>
+                                    <span class="fl">有效期至：{date("Y-m-d",$info[endtime])}</span>
+                                </div>
+                                <div class="mid">
+                                {if $info['status']==-1}
+                                <img src="{IMG_PATH}default/center_table_14.png">
+                                {else}
+                                {if $info[endtime]<SYS_TIME}								
+                                 <img src="{IMG_PATH}default/center_table_14.png">
+                                {else}
+                                 <img src="{IMG_PATH}default/center_table_06.png">
+                                {/if}
+                               
+                                {/if}
+                                </div>
+                                {if $info['status']==1}
+                                <div class="right" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat 33px 7px;">{$n}</div>
+                                {elseif $info[status]==0}
+                                  <div class="right" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat 33px 7px;">0</div>
+                                {/if}
+                            </div> 
+                            {else}
+                             <div class="series_box clearFix">
+                                <div class="left clearFix">
+                                     <a href="{$CATS[$v[courseid]][url]}" target="_blank"><p class="fl">{$r[catname]}</p></a>
+                                    <span class="fl">有效期至：无权限</span>
+                                </div>
+                                <div class="mid"><img src="{IMG_PATH}default/center_table_14.png"></div>
+                               <!--  <div class="right" style="background:url({$CATS[$v[courseid]][icon]}) no-repeat 33px 7px;">{$n}</div> -->
+                            </div> 
+                            {/if}
+                        {/loop}                          
+                       {/pc}
+                        
+                        </div>
+
+                    </div>
+                    {/loop}
+
+                </div>
+            </div>
+            
+            <div id="pages" class="page" align="center">{$pages}</div>
+
+        </div>
+
+    </div>
+</div>
+    <script>
+$(document).ready(function(){
+
+
+    //会员中心
+    $(".center_table_box").find(".series").each(function(){
+        $(this).find(".series_title_box").click(function(){
+            if($(this).find(".down").css("display")=="none"){
+                $(".up").hide();
+                $(".down").show();
+            }else {
+                $(".up").show();
+                $(".down").hide();
+            }
+            $(this).parent().siblings().find(".up").show();
+            $(this).parent().siblings().find(".down").hide();
+            $(this).siblings().slideToggle();
+            $(this).parent().siblings().find(".series_content").slideUp();
+        })
+    });
+})    
+    </script>
+{template "member","footer"}

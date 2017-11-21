@@ -1,0 +1,20 @@
+<!-- DEVELOPED BY WZ010.NET 网站建设与技术支持：龙鼎腾信 -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{if isset($SEO['title']) && !empty($SEO['title'])}{$SEO['title']}{/if}{$SEO['site_title']}</title>
+	<meta name="keywords" content="{$SEO['keyword']}">
+	<meta name="description" content="{$SEO['description']}">
+    <link href="{CSS_PATH}default/base.css" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" type="text/css" href="{CSS_PATH}default/css.css">
+    <link href="{CSS_PATH}default/index.css" rel="stylesheet" type="text/css">
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}default/Validform_v5.3.2_min.js"></script>
+    <script src="{JS_PATH}default/slider.js"></script>
+    <!--<script src="{JS_PATH}default/jwplayer5.7.min.js"></script>-->
+    <script src="{JS_PATH}default/base.js"></script>
+    <script type="text/javascript" src="{JS_PATH}search_common.js"></script>
+{template "content","check"}
+</head>
+{template "content","dm"}

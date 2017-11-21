@@ -1,0 +1,36 @@
+{template "mobile","header"}
+ {pc:content action="category" catid="$catid" num="3"  order="listorder ASC"}
+    {loop $data $r}
+        {php $result[]=$r}
+        {/loop}
+        {/pc}
+
+<div class="contact_box">
+    <ul class="contact clearBoth">
+        <li class="left click fl">
+            <div class="white"></div>
+            <div class="text">
+                <p>{$result[0][catname]}</p>
+                <a href="{$result[0][url]}">点击进入 </a>
+            </div>
+        </li>
+        <li class="left right fl">
+            <div class="white"></div>
+            <div class="text">
+                <p>树德诚聘英才</p>
+                <a href="{$result[1][url]}">点击进入 </a>
+            </div>
+        </li>
+    </ul>
+    <div class="contact_top">联系我们</div>
+    <div class="contact_bot_box">
+    {php $c=$result[2][catid]}
+       {pc:get sql="select *from ld_page where catid=$c" num=1}
+       {loop $data $r}
+       {$r[content]}
+       {/loop}
+       {/pc}
+    </div>
+
+</div>
+{template "mobile","footer"}

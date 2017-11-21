@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+   <title>{$CATEGORYS[$knowsid][catname]}--考试界面</title>
+<meta name="keywords" content="{$CATEGORYS[$knowsid][catname]}--考试界面">
+<meta name="description" content="{$CATEGORYS[$knowsid][catname]}--考试界面">
+    <meta name="viewport" content="width=device-width,height=device-height,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <link href="{CSS_PATH}wap/swiper.min.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/index.css?v={time()}" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}wap/media.css" rel="stylesheet" type="text/css">
+    <script>
+        document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        window.addEventListener('resize',function(){
+            document.documentElement.style.fontSize=document.documentElement.clientWidth/6.4+'px';
+        },false);
+    </script>
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script src="{JS_PATH}wap/swiper.min.js"></script>
+    <script src="{JS_PATH}wap/base.js"></script>
+   
+    {template "mobile","dm"}
+</head>
+<body class="gray">
+{php $userid=param::get_cookie("_userid");}
+<script type="text/javascript">
+    var catid={$CATEGORYS[$knowsid][parentid]};
+	var subflag=false;
+</script>
+    <div class="test">
+        <div class="test_title">
+            <h3>实验室培训及考核平台试题</h3>
+            <div class="test_time clearFix">
+                <div class="test_second fr">0秒</div>
+                <div class="test_minute fr">0分</div>
+                <div class="test_hour fr">0时</div>
+            </div>
+        </div>
+        <div class="test_content">
+            <div class="test_content_title clearBoth">
+                <div class="left fl">选择题<span>(单选题 )</span></div>
+                <div class="right fr">共 {count($list_info)} 题</div>
+            </div>
+            <!--试题-->
+            <form>
+			 {php $xuhao=1}
+        {loop $list_info $v}
+                <div class="test_one {if $xuhao%2==0}test_two{/if}">
+                    <div class="test_one_title">
+                        {$xuhao}、{$v[question]}
+                        <img src="{IMG_PATH}wap/dui_03.png" class="dui">
+                        <img src="{IMG_PATH}wap/cuo_07.png" class="cuo">
+                    </div>
+					{php $selecte=string2array($v[selecte]);}   
+           			{php $i=1}  
+           			{loop $selecte $k $b}  
+                    <label class="clearBoth" data-id="{$v[id]}###{$i}">
+                        <input type="radio" name="choice_{$v[id]}" class="fl">
+                        <div class="option fl"></div>
+                        <p class="fl">{$sign[$i]}、{$b}</p>
+                    </label>
+                    {$i++}
+                    {/loop}     
+                
+                </div>
+             {$xuhao++}
+		{/loop}
+
+              
+                <div class="test_sub">
+                     <input type="hidden" name="dosubmit" value="1">
+		            <input type="hidden" name="timesamp" value="{$timesamp}">
+		            <input type="button" value="提交" id="exam_submit">
+                </div>
+            </form>
+        </div>
+        <!--通过与未通过-->
+        <div class="hei"></div>
+        <div class="pass">
+            <div class="pass_content">
+                <!--通过未通过-->
+                <img src="{IMG_PATH}wap/seal_03.png" class="yi">
+                <img src="{IMG_PATH}wap/fail_pic_03.png" class="wei">
+                <p class="p1"><img src="{IMG_PATH}wap/test_adopt_03.png">恭喜您，通过了</p>
+                <p class="p2"><img src="{IMG_PATH}wap/fail_03.png">很遗憾，您未通过</p>
+                <div class="pass_a">
+                    <a href="#">确定</a>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script>
+	var intDiff = parseInt(300);//倒计时总秒数量
+    function timer(intDiff){
+        var textT=setInterval(function(){
+            var day=0,
+                hour=0,
+                minute=0,
+                second=0;//时间默认值
+            if(intDiff > 0){
+                day = Math.floor(intDiff / (60 * 60 * 24));				//一天
+                hour = Math.floor(intDiff / (60 * 60)) - (day * 24);
+                minute = Math.floor(intDiff / 60) - (day * 24 * 60) - (hour * 60);
+                second = Math.floor(intDiff) - (day * 24 * 60 * 60) - (hour * 60 * 60) - (minute * 60);
+            }else {
+                clearInterval(textT);
+                if(!subflag) autoclick();
+                //$("#exam_submit").click();
+            }
+            $('.test_hour').html(+hour+'时');
+            $('.test_minute').html(+minute+'分');
+            $('.test_second').html(+second+'秒');
+            intDiff--;
+        }, 1000);
+    }
+    timer(intDiff);
+    function autoclick(){
+        $("#exam_submit").trigger("click");  //让系统自动执行单击事件
+    }
+	</script>
+    <script type="text/javascript" src="{JS_PATH}wap/exam_wap.js"></script>
+</body>
+</html>

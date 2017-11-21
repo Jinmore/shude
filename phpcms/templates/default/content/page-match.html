@@ -1,0 +1,32 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+      {template "content","left-nav"}
+        <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+    <div class="vertical_base_title">您当前的位置：<a href="/">首页 </a>{mycatpos($catid)}</div>
+        <!--修改-->
+        <div class="match_bot">
+            <div class="match_bot_box">
+            {pc:content action="category" catid="$catid" num="9" siteid="$siteid" order="listorder ASC"}
+            {loop $data $r}
+                <div class="match_bot_one">
+                    <div class="match_bot_title">{$r[catname]}</div>
+                    
+                    <div class="match-content">
+                        {$r[description]}
+                    </div>                 
+
+                     <div class="matchmore"><a href="{$r[url]}" class="match_ul_a">READ MORE</a></div>
+                </div>
+            {/loop}
+            {/pc}             
+            </div>
+            
+{template "content","footer-main"}

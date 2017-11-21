@@ -1,0 +1,42 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+  {template "mobile","nav"}  
+     <script type="text/javascript">
+                var VId="{$videourl}";
+      </script>  
+    <div class="videos_content">   
+            <div class="prism-player" id="J_prismPlayer"></div>
+        <table class="clearBoth videolsit" >
+            <tr>
+              {pc:content action="lists" catid="$catid" num="30" order="listorder desc,inputtime Asc,id asc" moreinfo=1}
+               {loop $data $r}
+                 <td>
+                   <a href="{show_url($r[catid],$r[id])}"  {if $_GET['id']==$r[id]}style="color:#fff;background:#33a643"{/if}  >{$n}</a>      
+                   </td>
+                   {/loop}
+                {/pc}              
+            </tr>
+        </table>
+        <div class="text">
+            {$CATEGORYS[$catid][description]}
+        </div>
+    </div>   
+</div>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$(".videolsit td a").click(function(event) {
+			location.href=$(this).attr('href');
+		});
+	})	
+</script>
+ <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+  <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>  
+    <script type="text/javascript" src="{JS_PATH}default/add.js"></script>  
+  <script type="text/javascript">
+      _initPLayer(VId,"100%",'4rem');
+  </script>    
+  <style type="text/css">
+.prism-player .prism-time-display{font-size: 0.14rem}
+  </style> 
+{template "mobile","footer"}

@@ -1,0 +1,78 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+      
+        {template "content","left-nav"}
+        <!--二级菜单-->
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  >  {$CATEGORYS[$x_catid][catname]} > <a href="{$CATEGORYS[$CATEGORYS[$catid][parentid]][url]}">{$CATEGORYS[$CATEGORYS[$catid][parentid]][catname]}</a> ><span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+        {php $result=array()}
+         {pc:content action="lists" catid="$catid" num="4" order="listorder desc,inputtime Asc,id asc" moreinfo=1}
+            {loop $data $r}
+            {php $result[]=$r}
+            {/loop}
+         {/pc}
+            <!--不一样的地方-->
+            <div class="hui_two_top clearFix">
+                <div class="hui_two_top_left fl"><img src="{if $result[0][thumb]}{$result[0][thumb]}{else}{IMG_PATH}default/moren.jpg{/if}"></div>
+                <div class="hui_two_top_right fl">
+                    <h3>{$result[0][title]}</h3>
+                    <div class="hui_two_top_right_text">
+                     {$result[0][content]}
+                    </div>
+                </div>
+            </div>
+            <!--课程二bot-->
+            <div class="ke_two_bot">
+            {if $result[1][content]}
+               <div class="ke_two_bot_top">
+                    <h3>{$result[1][title]}</h3>
+                   
+                </div>
+                <div class="k1">
+               {$result[1][content]}
+                </div>
+            {/if}   
+            {if $result[2][content]} 
+                <div class="ke_two_bot_top">
+                    <h3>{$result[2][title]}</h3>
+                </div>
+                <div class="ke_two_bot_bot">
+                      {$result[2][content]}
+
+                </div>
+           {/if}     
+
+                <div class="three_shi">{$result[3][title]}</div>
+                <ul class="kec_one clearFix" id="videolist">
+                    {pc:content action="relation" relation="$result[3]['relation']" id="$result[3]['id']" catid="$catid" num="2""}
+                    {loop $data $r}
+                   <li class="videoItem" data-source='{$r[videourl]}'>
+                    <a href="javascript:;" class="kec_one_video">  <img src="{$r[thumb]}">
+                    <span><img src="{IMG_PATH}default/an_03.png"></span></a>
+                    <a href="javascript:;" class="kec_one_a">{$r[title]}</a>
+                     </li>
+                    {/loop}
+                    {/pc}                  
+                </ul>
+                <div class="shi_center">
+                    <div class="guan"><img src="{IMG_PATH}default/ch.png"></div>
+                     <div class="prism-player" id="J_prismPlayer"></div>
+                </div>
+                <div class="hei"></div>
+
+            </div>
+        </div>
+     <link rel="stylesheet" href="https://g.alicdn.com/de/prismplayer/1.7.4/skins/default/index.css" />
+        <script type="text/javascript" src="jquery.min.js"></script>
+        <script type="text/javascript" src="https://g.alicdn.com/de/prismplayer/1.7.4/prism.js"></script>
+
+        <script type="text/javascript" src="{JS_PATH}default/add.js"></script>
+        {template "content","footer-main"}

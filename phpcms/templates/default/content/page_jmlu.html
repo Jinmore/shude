@@ -1,0 +1,56 @@
+{template "content","header"}
+<script language="javascript" type="text/javascript" src="{JS_PATH}dialog.js"></script>
+<link href="{CSS_PATH}table_form.css" rel="stylesheet" type="text/css" />
+<link href="{CSS_PATH}dialog.css" rel="stylesheet" type="text/css" />
+<style type="text/css">
+    .dosubmit {background-color: #33a643;color: #fff ;width: 73px;height: 34px}
+    tbody td, .table_form tbody th {
+        border-bottom: 1px solid #fff;
+    }
+</style>
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+          {template "content","left-nav"}
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>  > <a href="{$CATEGORYS[$x_catid][url]}">{$CATEGORYS[$x_catid][catname]}</a> ><span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <div class="gaiLan">
+                <div class="content">
+                    <form method="post" action="{APP_PATH}index.php?m=formguide&amp;c=index&amp;a=show&amp;formid=14" name="myform" id="myform" class="registerform">
+                    <table class="table_form" width="100%" cellspacing="0">
+                        <tbody>
+                        <tr>
+                        <th width="80"> <font color="red">*</font> 标题</th>
+                        <td><input type="text" name="info[title]" id="title" size="50" value="" class="input-text inputxt" datatype="*" nullmsg="请输入标题！" errormsg=""></td>
+                        </tr>
+                        <tr>
+                        <th width="80"> <font color="red">*</font> 姓名  </th>
+                        <td><input type="text" name="info[name]" id="name" size="50" value="" class="input-text inputxt" datatype="*" nullmsg="请输入您的姓名" errormsg=""></td>
+                        </tr>
+                        <tr>
+                        <th width="80"> <font color="red">*</font> 电话  </th>
+                            <td><input type="text" name="info[tel]" id="tel" size="50" value="" class="input-text inputxt" datatype="m" nullmsg="请输入您的电话！" errormsg="手机号格式不正确！"></td>
+                        </tr>
+                        <tr>
+                        <th width="80">内容</th>
+                        <td><textarea name="info[content]" id="content" style="width:43%;height:46px;"></textarea></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td><div class="submit ib"><input type="submit" name="dosubmit" id="dosubmit" class="dosubmit" value=" 提交 "></div> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </form>
+                </div>
+            </div>
+        </div>
+
+
+{template "content","footer-main"}

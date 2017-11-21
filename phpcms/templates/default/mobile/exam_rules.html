@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>考试规则</title>
+	<link rel="stylesheet" href="{CSS_PATH}wap/base.css">
+	<link rel="stylesheet" href="{CSS_PATH}wap/index.css">
+	<script type="text/javascript" src="{JS_PATH}jquery.min.js"></script>
+</head>
+<body>
+
+<div class="rule" style="display: block;width:100%;height:auto;padding-top:20px">
+    
+    <h3>考试规则</h3>
+    <div class="text" style="font-size:14px;text-align:left;margin-top:10px;margin-left:47px;">
+        1、请在5分钟内完成答题。<br>
+        2、答题必须全部正确。<br>
+        3、每日两次考试机会。
+    </div>
+ 
+    <div class="rule_start" style="display: block;margin-top:5px;text-align:center;">
+        <a href="javascript:;" class="start" id="kaoshi" style="font-size:14px;color:#fff;line-height:24px;border-radius:20px;display:inline-block;width:100px;">倒计时5秒</a>
+    </div>
+
+</div>
+<script type="text/javascript">
+	var seconds=5;
+	$("#kaoshi").css("background","#595959");
+	setInterval(function(){
+	if(seconds>0){
+		$("#kaoshi").html("倒计时"+(seconds-1)+"秒");
+		seconds=seconds-1;
+		}else{
+			$("#kaoshi").css("background","#32a542");
+			$("#kaoshi").html("开始考试");
+			$("#kaoshi").attr('href',"?m=exam&a=gettheme&chapterid={$knowsid}");
+			$("#kaoshi").attr('target',"_top");
+		}		
+	},1000);
+	
+</script>
+</body>
+</html>

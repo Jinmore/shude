@@ -1,0 +1,39 @@
+{template "content","header"}
+<body>
+<div class="base_inner clearFix">
+    <div class="left_shadow"></div>
+    <div class="right_shadow"></div>
+    <!--垂直导航-->
+    <div class="vertical_nav fl">
+      {template "content","left-nav"}
+        
+    </div>
+    <!--右边内容-->
+    <div class="huiYuan_one_right fr">
+        <div class="vertical_base_title">您当前的位置：<a href="/">首页</a>   >{if $catid!=$x_catid} {$CATEGORYS[$x_catid][catname]}  > {/if}<span>{$CATEGORYS[$catid][catname]}</span></div>
+        <div class="huiYuan_one_right_box">
+            <!--企业动态-->
+            <div class="dongTai_right">
+                <ul class="clearFix">
+     {pc:content action="lists" catid="$catid" num="6" order="listorder desc,inputtime DEsc,id DEsc" page="$page"}
+            {loop $data $r}
+                    <li>
+                        
+                            <img src="{if $r[thumb]}{$r[thumb]}{else}/statics/images/default/moren.jpg{/if}" width="479px" height="258px">
+                            <h6>{$r[title]}</h6>
+                            <p>{date("Y-m-d",$r[inputtime])}</p>
+                            <div class="dongTai_right_text">
+                                {str_cut($r[description],240," ")}
+                            </div>
+							<a href="{$r[url]}">
+                            <div class="dongTai_li_a">READ MORE>></div>
+                        </a>
+                    </li>
+            {/loop}        
+      {/pc}                   
+                </ul>
+
+                <div id="pages" class="pages" align="center">{$pages}</div>
+            </div>
+        </div>
+{template "content","footer-main"}

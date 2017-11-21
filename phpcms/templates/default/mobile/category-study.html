@@ -1,0 +1,38 @@
+{template "mobile","header"}
+<div class="main">
+    <!--公用的title-->
+{template "mobile","nav"}
+    <div class="series">
+        <ul class="series_one">
+
+         {php $sql_count="select count(*) as num from phpcms_category where parentid=$catid and ismenu=1"} 
+          {php $this->db->query($sql_count)}
+          {php $total=$this->db->fetch_array()}
+          {php $pagesize=4}
+          {php $page = max(intval($_GET[page]), 1);}
+          {php $offset = $pagesize*($page-1);}
+            {pc:get sql="select * from phpcms_category where parentid=$catid and ismenu=1 order by listorder asc limit $offset,$pagesize --"}
+            {loop $data $r}
+            <li class="clearBoth">
+                <a href="{list_url($r[catid],$r[id])}" class="clearBoth">
+                    <div class="left fl"><img src="{thumb($r[wapimage],300,317)}"></div>
+                    <div class="right fl">
+                        <h3>{$r[catname]}</h3>
+                        <div class="txt">
+                            {str_cut(strip_tags($r[description]),235," ")}
+                        </div>
+                        <div class="more">READ MORE</div>
+                    </div>
+
+                </a>
+            </li>
+              {/loop}
+              {/pc}         
+        </ul>
+
+         {if $total[0][num]>$pagesize}
+            <div id="pages" class="page" align="center">{wpa_pages($total[0][num],$page,$pagesize,makeurlrule())}</div>
+         {/if}
+    </div>
+</div>
+{template "mobile","footer"}

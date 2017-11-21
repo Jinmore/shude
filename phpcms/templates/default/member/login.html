@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>树德会员登录</title>
+    <link href="{CSS_PATH}default/base.css" rel="stylesheet" type="text/css">
+    <link href="{CSS_PATH}default/index.css" rel="stylesheet" type="text/css">
+    <script src="{JS_PATH}default/jquery-3.1.0.min.js"></script>
+    <script>
+        $(function(){
+            $(".keFu").find("a").click(function(){
+                $(".iphone_num").show();
+            });
+            $(".iphone_num").find(".close").click(function(){
+                $(".iphone_num").hide();
+            });
+        })
+    </script>
+</head>
+<body>
+
+<div class="sign_one_bg" >
+    <div class="green"></div>
+    <div class="sign_one " id="result_one" >
+        <form action="/index.php?m=member&c=ajaxlogin&a=public_Login" method="post" class="layui-form login-form">       
+            <input type="text" id="username" name="username" value="" class="yongHu" placeholder="用户名">
+            <input type="password" id="password" name="password" value="" class="miMa" placeholder="密码">
+       
+        <input type="hidden" name="dosubmit" value="{L('login')}" >
+          <button class="sign_one_a" lay-submit lay-filter="*" style="border:none">登 录</button>
+        </form>
+        <a href="/index.php?m=member&c=index&a=public_forget_password_mobile&siteid={$siteid}" class="sign_wang">忘记密码？</a>
+    </div>
+
+    <div class="sign_two" id="result_two" style="display:none">
+        <div class="duanXin clearFix">
+            <span class="fl"><img src="{IMG_PATH}default/sign_two_03.jpg"></span>
+            <p class="fl duan_p">你正在使用手机短信验证身份</p>
+        </div>
+        <div class="sign_two_pho">手机号：<samp id="phonenumber">*******5162</samp></div>
+        <div class="yanZheng clearFix">
+            <p class="fl">验证码：</p>
+    
+            <input type="text" placeholder="6位数字" class="yanZheng_input_left" id="validataCode">
+            <input type="button" class="sign_two_submit" id="getValidateSMS" value="获取验证码">
+
+           
+        </div>
+        <a href="javascript:;" class="queDing" id="confirmSub" >确 定</a>
+        <p class="keFu">手机不可用？<a href="javascript:;">点此联系客服</a></p>
+        <div class="iphone_num">
+            您可以联系我们<br>
+            010-61201440
+            <div class="close">X</div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="statics/plugin/layerui/lay/dest/layui.all.js"></script>
+<script type="text/javascript" src="{JS_PATH}cookie.js"></script>
+<script src="statics/js/default/member.js"></script>
+
+<script language="JavaScript">
+<!--
+	$(function(){
+		$('#username').focus();
+	})
+	function save_username() {
+		if($('#cookietime').attr('checked')==true) {
+			var username = $('#username').val();
+			setcookie('username', username, 3);
+		} else {
+			delcookie('username');
+		}
+	}
+	var username = getcookie('username');
+	if(username != '' && username != null) {
+		$('#username').val(username);
+		$('#cookietime').attr('checked',true);
+	}
+	function show_login(site) {
+		if(site == 'sina') {
+			art.dialog({lock:false,title:'{L('sina_login')}',id:'protocoliframe', iframe:'index.php?m=member&c=index&a=public_sina_login',width:'500',height:'310',yesText:'{L('close')}'}, function(){
+			});
+		} else if(site == 'snda') {
+			art.dialog({lock:false,title:'{L('snda_login')}',id:'protocoliframe', iframe:'index.php?m=member&c=index&a=public_snda_login',width:'500',height:'310',yesText:'{L('close')}'}, function(){
+			});
+		} else if(site == 'qq') {
+			art.dialog({lock:false,title:'{L('qq_login')}',id:'protocoliframe', iframe:'index.php?m=member&c=index&a=public_qq_login',width:'500',height:'310',yesText:'{L('close')}'}, function(){
+			});
+		}
+	}
+//-->
+</script>
+
+</body>
+
+
+</html>
